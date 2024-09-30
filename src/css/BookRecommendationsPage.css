@@ -112,7 +112,7 @@ input {
 .book-upper-right>a {
     height: 70px;
     margin: 5px 0 0 0;
-    overflow: scroll;
+    overflow-y: auto;
     display: block;
     text-decoration: none;
     color: var(--soft-light-color);
@@ -122,17 +122,17 @@ input {
 .book-authors {
     font-size: 14px;
     height: 40px;
-    overflow: scroll;
+    overflow-y: auto;
 }
 
 .book-categories {
     font-size: 12px;
     height: 30px;
-    overflow: scroll;
+    overflow-y: auto;
 }
 
 .book-description{
-    overflow: scroll;
+    overflow-y: auto;
     margin-top: 0px;
     margin-bottom:3px;
 }   
