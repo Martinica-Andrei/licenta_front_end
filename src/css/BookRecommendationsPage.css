@@ -50,7 +50,7 @@ input {
     flex-direction: column;
     background-color: var(--medium-dark-color);
     margin-top: 4px;
-    border: 1px solid var(--light-color)
+    border: 1px solid var(--light-color);
 }
 
 .search-bar-findings-div>button {
@@ -60,10 +60,45 @@ input {
     padding-top: 5px;
     padding-bottom: 5px;
     border: none;
-    color: var(--soft-light-color)
+    color: var(--soft-light-color);
 }
 
 .search-bar-findings-div>button:hover {
     background-color: var(--dark-color);
     text-decoration: underline;
+}
+
+.book-section {
+    display: flex;
+    width: 70%;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    gap :30px;
+    margin-top:30px;
+}
+
+.book {
+    display:flex;
+    flex:0.25 0.5 400px;
+    height: 300px;
+    background-color: var(--medium-dark-color);
+    border: 1px solid var(--light-color);
+    border-radius: 5%;
+    padding:10px;
+    box-sizing: border-box;
+}
+.book > img{
+    border-radius: 10%;
+    width:120px;
+    height:180px;
+}
+
+.book>div{
+    margin-left:10px;
+}
+
+.book>div>h4{
+    height:75px;
+    margin: 5px 0 0 0;
+    overflow: scroll;
 }

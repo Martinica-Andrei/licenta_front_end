@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { MODELS_API_BOOKS_URL } from '../externApi'
 import SearchBarButton from './SearchBarButton'
 
-const SearchBar = ({setId}) => {
+const SearchBar = ({ setId }) => {
 
     const [value, setValue] = useState('')
     const [titles, setTitles] = useState([])
@@ -12,13 +12,17 @@ const SearchBar = ({setId}) => {
 
     useEffect(() => {
         if (value.length > 0) {
-            const url = `${MODELS_API_BOOKS_URL}?count=10&title=${value}`
+            const v = encodeURIComponent(value)
+            const url = `${MODELS_API_BOOKS_URL}?count=10&title=${v}`
             fetch(url)
                 .then(res => res.json())
                 .then(data => {
                     setTitles(data)
                 })
-                .catch(err => setTitles([]))
+                .catch(err => { 
+                    setTitles([]) 
+                    console.log(err)
+                })
         }
         else {
             setTitles([])
@@ -44,7 +48,7 @@ const SearchBar = ({setId}) => {
 
     return (
         <div className='search-bar-div '>
-            <label>Search movie: </label>
+            <label>Search book: </label>
             <div className='search-bar-input'>
                 <input ref={inputRef} value={value} onChange={e => setValue(e.target.value)}
                     onFocus={() => setInputHasFocus(true)} onBlur={() => setInputHasFocus(false)}></input>
