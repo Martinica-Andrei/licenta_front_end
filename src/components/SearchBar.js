@@ -9,20 +9,33 @@ const SearchBar = ({ setId }) => {
     const [inputHasFocus, setInputHasFocus] = useState(false)
     const inputRef = useRef(null)
     const divFindingsRef = useRef(null)
+    const valueRef = useRef(value)
+
+    const fetchTitles = () => {
+        const v = encodeURIComponent(value)
+        const url = `${MODELS_API_BOOKS_URL}?count=10&title=${v}`
+        fetch(url)
+            .then(res => res.json())
+            .then(data => {
+                if (valueRef.current === value) {
+                    setTitles(data)
+                }
+            })
+            .catch(err => {
+                if (valueRef.current === value) {
+                    setTitles([])
+                    console.log(err)
+                }
+            })
+    }
 
     useEffect(() => {
         if (value.length > 0) {
-            const v = encodeURIComponent(value)
-            const url = `${MODELS_API_BOOKS_URL}?count=10&title=${v}`
-            fetch(url)
-                .then(res => res.json())
-                .then(data => {
-                    setTitles(data)
-                })
-                .catch(err => { 
-                    setTitles([]) 
-                    console.log(err)
-                })
+            valueRef.current = value
+            const timeoutId = setTimeout(fetchTitles, 200)
+            return () => {
+                clearTimeout(timeoutId)
+            }
         }
         else {
             setTitles([])
