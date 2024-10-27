@@ -13,7 +13,7 @@ const SearchBar = ({ setId }) => {
 
     const fetchTitles = () => {
         const v = encodeURIComponent(value)
-        const url = `${MODELS_API_BOOKS_URL}?count=10&title=${v}`
+        const url = `${MODELS_API_BOOKS_URL}/search?count=50&title=${v}`
         fetch(url)
             .then(res => res.json())
             .then(data => {
