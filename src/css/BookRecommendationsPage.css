@@ -127,7 +127,7 @@ input {
     overflow-y: auto;
     display: block;
     text-decoration: none;
-    color: var(--soft-light-color);
+    color: black;
     font-size: 18px;
 }
 
@@ -167,12 +167,33 @@ input {
     padding:14px;
     border: 1px solid var(--soft-light-color);
     border-radius: 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#nav-main-right>button{
+    margin-right: 5px;
+    padding:10px;
+    width: 100px;
+    font-size: 16px;
+    background-color: var(--light-color);
+    border: 1px solid var(--dark-color);
+    border-radius: 10%;
+    color: black;
+}
+
+#nav-main-right>button:hover{
+    background-color: var(--dark-color);
+    border: 1px solid var(--light-color);
+    color: var(--soft-light-color);
+    cursor:pointer;
 }
 
 #nav-main>h1{
     margin:0;
     font-size: 24px;
-    color: var(--soft-light-color);
+    color: black;
 }
 
 #nav-search{
