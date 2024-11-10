@@ -13,17 +13,23 @@ const SearchBar = ({ setId }) => {
 
     const fetchTitles = () => {
         const v = encodeURIComponent(value)
-        const url = `${MODELS_API_BOOKS_URL}/search?count=50&title=${v}`
+        const url = `${MODELS_API_BOOKS_URL}/search?count=100&title=${v}`
         fetch(url)
             .then(res => res.json())
             .then(data => {
                 if (valueRef.current === value) {
                     setTitles(data)
+                    if (divFindingsRef.current) {
+                        divFindingsRef.current.scrollTop = 0
+                    }
                 }
             })
             .catch(err => {
                 if (valueRef.current === value) {
                     setTitles([])
+                    if (divFindingsRef.current) {
+                        divFindingsRef.current.scrollTop = 0
+                    }
                     console.log(err)
                 }
             })
@@ -49,7 +55,6 @@ const SearchBar = ({ setId }) => {
             }
             else {
                 divFindingsRef.current.style.visibility = 'hidden'
-
             }
         }
     }, [inputHasFocus])

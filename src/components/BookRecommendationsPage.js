@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import SearchBar from './SearchBar'
 import '../css/BookRecommendationsPage.css'
 import { MODELS_API_BOOKS_RECOMMENDATIONS_URL } from '../externApi'
 import Book from './Book'
+import Nav from './Nav'
 
 const BookRecommendationsPage = () => {
 
@@ -22,13 +22,14 @@ const BookRecommendationsPage = () => {
     }, [id])
 
     return (
-        <div className='main-section'>
-            <h1>Book recommendations</h1>
-            <SearchBar setId={setId}></SearchBar>
-            {books.length > 0 && <div className='book-section'>
-                {books.map((book, index) => <Book key={index} {...book}></Book>)}
-            </div>}
-        </div>
+        <>
+            <Nav setId={setId}></Nav>
+            <div className='main-section'>
+                {books.length > 0 && <div className='book-section'>
+                    {books.map((book, index) => <Book key={index} {...book}></Book>)}
+                </div>}
+            </div>
+        </>
     )
 }
 

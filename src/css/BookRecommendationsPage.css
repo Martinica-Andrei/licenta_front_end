@@ -22,6 +22,7 @@ input {
     display: flex;
     align-items: center;
     flex-direction: column;
+    margin-top:120px;
 }
 
 .search-bar-input {
@@ -44,6 +45,11 @@ input {
     align-items: center;
 }
 
+.search-bar-div>label{
+    color: var(--soft-light-color);
+    font-size: 16px;
+}
+
 .search-bar-findings-div {
     position: absolute;
     display: flex;
@@ -51,6 +57,9 @@ input {
     background-color: var(--medium-dark-color);
     margin-top: 4px;
     border: 1px solid var(--light-color);
+    overflow-y: auto;
+    max-height: 400px;
+    min-width: 300px;
 }
 
 .search-bar-findings-div>button {
@@ -80,14 +89,16 @@ input {
 .book {
     display:flex;
     flex-direction: column;
-    flex: 0.25 0.5 400px;
+    flex: 0.25 0.5 400px; 
     height: 300px;
     background-color: var(--medium-dark-color);
     border: 1px solid var(--light-color);
     border-radius: 5%;
     padding: 10px;
     box-sizing: border-box;
-    color: var(--soft-light-color)
+    color: var(--soft-light-color);
+    word-wrap: break-word;
+    word-break: break-word;
 }
 
 .book-upper {
@@ -107,6 +118,7 @@ input {
 
 .book-upper-right {
     margin-left : 10px;
+    width:100%;
 }
 
 .book-upper-right>a {
@@ -136,3 +148,42 @@ input {
     margin-top: 0px;
     margin-bottom:3px;
 }   
+
+#nav-wrapper{
+    position:fixed;
+    width:100%;
+    z-index: 1;
+    top:0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 10px 0 10px;
+    background-color: var(--dark-color); 
+}
+
+#nav-main{
+    background-color: var(--medium-dark-color);
+    width:95%;
+    padding:14px;
+    border: 1px solid var(--soft-light-color);
+    border-radius: 10%;
+}
+
+#nav-main>h1{
+    margin:0;
+    font-size: 24px;
+    color: var(--soft-light-color);
+}
+
+#nav-search{
+    display: flex;
+    justify-content: center;
+    background-color: var(--medium-dark-color);
+    width:50%;
+    height:50px;
+    border-color: var(--soft-light-color);
+    border-right: 1px solid;
+    border-bottom: 1px solid;
+    border-left: 1px solid;
+    border-radius: 3%;
+}
