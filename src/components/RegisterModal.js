@@ -1,13 +1,12 @@
 import React, { useState, useContext } from "react";
 import ModalBackground from "./ModalBackground";
-import { MODELS_API_AUTH_LOGIN_URL } from '../externApi'
+import { MODELS_API_AUTH_REGISTER_URL } from '../externApi'
 import AuthContext from '../contexts/AuthContext'
 
-const LoginModal = ({ display, setDisplay }) => {
+const RegisterModal = ({ display, setDisplay }) => {
 
     const [name, setName] = useState('')
     const [password, setPassword] = useState('')
-    const [rememberMe, setRememberMe] = useState(false)
     const [errors, setErrors] = useState({})
     const [isAuth, setIsAuth] = useContext(AuthContext)
 
@@ -24,16 +23,11 @@ const LoginModal = ({ display, setDisplay }) => {
         if (isAuth){
             return
         }
-        let daysUntilExpiration = 1
-        if (rememberMe) {
-            daysUntilExpiration = 90
-        }
         let body = {
             "name": name,
             "password": password,
-            "days_until_expiration": daysUntilExpiration
         }
-        fetch(MODELS_API_AUTH_LOGIN_URL, {
+        fetch(MODELS_API_AUTH_REGISTER_URL, {
             credentials: 'include',
             method: 'POST',
             body: JSON.stringify(body),
@@ -49,7 +43,6 @@ const LoginModal = ({ display, setDisplay }) => {
                     setDisplay(false)
                     setName('')
                     setPassword('')
-                    setRememberMe(false)
                     setIsAuth(true)                
                     return {}
                 }
@@ -74,7 +67,7 @@ const LoginModal = ({ display, setDisplay }) => {
                 <div className="div-close-modal">
                     <button className='close-btn' onClick={() => setDisplay(false)}>X</button>
                 </div>
-                <h1>Log In</h1>
+                <h1>Register</h1>
                 <form className="basic-form" onSubmit={submit}>
                     <div className="input-div">
                         <label >Name: </label>
@@ -90,12 +83,8 @@ const LoginModal = ({ display, setDisplay }) => {
                             <p className="error" {...getErrorStyle('password')}>{errors['password']}</p>
                         </div>
                     </div>
-                    <div className="input-div">
-                        <label>Remember me: </label>
-                        <input className="checkbox" type='checkbox' value={rememberMe} onChange={e => setRememberMe(e.target.value)}></input>
-                    </div>
                     <div className="login-modal-submit-div">
-                        <button className="basic-btn-2">Log In</button>
+                        <button className="basic-btn-2">Register</button>
                     </div>
                 </form>
             </div>
@@ -103,4 +92,4 @@ const LoginModal = ({ display, setDisplay }) => {
     )
 }
 
-export default LoginModal
+export default RegisterModal

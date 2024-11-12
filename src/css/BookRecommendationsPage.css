@@ -248,7 +248,6 @@ input {
     border-radius: 5%;
     width: 600px;
     height: 500px;
-    background-color: white;
     padding: 15px;
     box-sizing: border-box;
     align-items: center;
@@ -319,4 +318,5 @@ input {
     margin-bottom: 0px;
     color:rgb(255, 33, 43);
     display: none;
+    width:250px;
 }
