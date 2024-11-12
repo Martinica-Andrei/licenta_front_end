@@ -3,11 +3,13 @@ import SearchBar from "./SearchBar"
 import LoginModal from './LoginModal'
 import RegisterModal from "./RegisterModal"
 import AuthContext from "../contexts/AuthContext"
+import UserRoutesModal from "./UserRoutesModal"
 
 const Nav = ({ setId }) => {
 
     const [displayLogin, setDisplayLogin] = useState(false)
     const [displayRegister, setDisplayRegister] = useState(false)
+    const [displayUserRoutes, setDisplayUserRoutes] = useState(false)
     const [isAuth, setIsAuth] = useContext(AuthContext)
 
     return (
@@ -23,7 +25,7 @@ const Nav = ({ setId }) => {
                             </>
                             :
                             <>
-                                <button className="basic-btn">Profile</button>
+                                <button className="basic-btn" onClick={() => setDisplayUserRoutes(true)}>Profile</button>
                             </>
                         }
                     </div>
@@ -34,6 +36,8 @@ const Nav = ({ setId }) => {
             </div>
             <LoginModal display={displayLogin} setDisplay={setDisplayLogin}></LoginModal>
             <RegisterModal display={displayRegister} setDisplay={setDisplayRegister}></RegisterModal>
+            <UserRoutesModal display={displayUserRoutes} setDisplay={setDisplayUserRoutes}></UserRoutesModal>
+
         </>
     )
 }

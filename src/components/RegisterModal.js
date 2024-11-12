@@ -55,14 +55,14 @@ const RegisterModal = ({ display, setDisplay }) => {
             })
     }
 
-    const backgroundEvents = {
+    const attributes = {
         onClick: (e) =>{
             setDisplay(false)
         }
     }
 
     return (
-        <ModalBackground display={display} setDisplay={setDisplay} backgroundEvents={backgroundEvents}>
+        <ModalBackground display={display} setDisplay={setDisplay} divAttributes={attributes}>
             <div className="login-modal" onClick={e => e.stopPropagation()}>
                 <div className="div-close-modal">
                     <button className='close-btn' onClick={() => setDisplay(false)}>X</button>

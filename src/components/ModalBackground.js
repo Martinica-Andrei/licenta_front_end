@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback} from "react";
 
-const ModalBackground = ({ children, display, setDisplay, backgroundEvents }) => {
+const ModalBackground = ({ children, display, setDisplay, divAttributes }) => {
 
     const closeWithEsc = useCallback((e)=>{
         if (e.key === 'Escape'){
@@ -23,7 +23,7 @@ const ModalBackground = ({ children, display, setDisplay, backgroundEvents }) =>
     return (
         <>
             {display &&
-                <div className="modal-background" {...backgroundEvents}>
+                <div className="modal-background" {...divAttributes}>
                     {children}
                 </div>
             }

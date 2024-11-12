@@ -131,6 +131,10 @@ input {
     font-size: 18px;
 }
 
+.book-upper-right>a:hover {
+    text-decoration: underline;
+}
+
 .book-authors {
     font-size: 14px;
     height: 40px;
@@ -242,6 +246,18 @@ input {
     align-items: center;
 }
 
+.modal-background-right{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #00000055;
+    z-index: 9000;
+    display: flex;
+    justify-content: end;
+}
+
 .login-modal {
     display: flex;
     flex-direction: column;
@@ -265,8 +281,8 @@ input {
 }
 
 .close-btn {
-    width: auto;
-    height: auto;
+    width:50px;
+    height:50px;
     opacity: 0.6;
     padding:0;
     font-size:38px;
@@ -278,6 +294,7 @@ input {
 .close-btn:hover {
     opacity: 1;
     cursor: pointer;
+    background-color: var(--light-color);
 }
 
 .div-close-modal{
@@ -320,3 +337,21 @@ input {
     display: none;
     width:250px;
 }
+
+@keyframes slide {
+    from {left : 300px;}
+    to {left:0px;}
+}
+
+.user-routes-modal{
+    width:300px;
+    height:100vh;
+    background-color: var(--dark-color);
+    border-radius: 2%;
+    border-left: 1px solid var(--light-color);
+    padding:3px;
+    position:relative;
+    animation-name: slide;
+    animation-duration: 0.25s;
+}
+
