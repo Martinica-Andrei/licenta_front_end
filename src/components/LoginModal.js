@@ -7,7 +7,6 @@ const LoginModal = ({ display, setDisplay }) => {
 
     const [name, setName] = useState('')
     const [password, setPassword] = useState('')
-    const [rememberMe, setRememberMe] = useState(false)
     const [errors, setErrors] = useState({})
     const [isAuth, setIsAuth] = useContext(AuthContext)
 
@@ -24,14 +23,9 @@ const LoginModal = ({ display, setDisplay }) => {
         if (isAuth){
             return
         }
-        let daysUntilExpiration = 1
-        if (rememberMe) {
-            daysUntilExpiration = 90
-        }
         let body = {
             "name": name,
-            "password": password,
-            "days_until_expiration": daysUntilExpiration
+            "password": password
         }
         fetch(MODELS_API_AUTH_LOGIN_URL, {
             credentials: 'include',
@@ -49,7 +43,6 @@ const LoginModal = ({ display, setDisplay }) => {
                     setDisplay(false)
                     setName('')
                     setPassword('')
-                    setRememberMe(false)
                     setIsAuth(true)                
                     return {}
                 }
@@ -89,10 +82,6 @@ const LoginModal = ({ display, setDisplay }) => {
                             <input type='password' value={password} onChange={e => setPassword(e.target.value)}></input>
                             <p className="error" {...getErrorStyle('password')}>{errors['password']}</p>
                         </div>
-                    </div>
-                    <div className="input-div">
-                        <label>Remember me: </label>
-                        <input className="checkbox" type='checkbox' value={rememberMe} onChange={e => setRememberMe(e.target.value)}></input>
                     </div>
                     <div className="login-modal-submit-div">
                         <button className="basic-btn-2">Log In</button>
