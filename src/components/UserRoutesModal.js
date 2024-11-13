@@ -19,6 +19,7 @@ const UserRoutesModal = ({ display, setDisplay }) => {
         fetch(MODELS_API_AUTH_LOGOFF, { credentials: 'include' })
             .then(res => {
                 if (res.status === 200) {
+                    localStorage.removeItem('csrf_token')
                     setIsAuth(false)
                     setDisplay(false)
                 }
@@ -36,7 +37,7 @@ const UserRoutesModal = ({ display, setDisplay }) => {
                 if (res.status === 200) {
                     setUsername(data.name)
                 }
-                else if (res.status == 401 && 'sessionToken' in data) {
+                else if (res.status == 401) {
                     setIsAuth(false)
                     setDisplay(false)
                 }

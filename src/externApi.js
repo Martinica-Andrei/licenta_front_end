@@ -1,6 +1,8 @@
 export const MODELS_API_BASE_URL = 'http://127.0.0.1:5000/api'
 export const MODELS_API_BOOKS_URL = MODELS_API_BASE_URL + '/books'
+export const MODELS_API_BOOKS_SEARCH_URL = MODELS_API_BOOKS_URL + '/search'
 export const MODELS_API_BOOKS_RECOMMENDATIONS_URL = MODELS_API_BOOKS_URL + '/recommendations'
+export const MODELS_API_BOOKS_RATE_URL = MODELS_API_BOOKS_URL + '/rate'
 export const MODELS_API_AUTH_URL = MODELS_API_BASE_URL + '/auth'
 export const MODELS_API_AUTH_LOGIN_URL = MODELS_API_AUTH_URL + '/login'
 export const MODELS_API_AUTH_REGISTER_URL = MODELS_API_AUTH_URL + '/register'

@@ -94,7 +94,7 @@ input {
     display: flex;
     flex-direction: column;
     flex: 0.25 0.5 400px;
-    height: 300px;
+    height: 332px;
     background-color: var(--medium-dark-color);
     border: 1px solid var(--light-color);
     border-radius: 5%;
@@ -155,6 +155,10 @@ input {
     overflow-y: auto;
     margin-top: 0px;
     margin-bottom: 3px;
+}
+
+.book-rating-section{
+    margin-top: auto;
 }
 
 #nav-wrapper {
@@ -403,4 +407,23 @@ input {
     display:flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.rate-btn{
+    background-color: transparent;
+    border:none;
+    width:auto;
+    height:auto;
+    padding: 0;
+    margin-right:5px;
+}
+
+.rate-btn img{
+    width:32px;
+    height:32px;
+    cursor: pointer;
+}
+
+.rate-btn img:hover{
+    filter: brightness(0.85);
 }

@@ -1,15 +1,9 @@
 import React, { useState, useContext } from "react"
 import SearchBar from "./SearchBar"
-import LoginModal from './LoginModal'
-import RegisterModal from "./RegisterModal"
 import AuthContext from "../contexts/AuthContext"
-import UserRoutesModal from "./UserRoutesModal"
 
-const Nav = ({ setId }) => {
+const Nav = ({ setId, setDisplayLogin, setDisplayRegister, setDisplayUserRoutes }) => {
 
-    const [displayLogin, setDisplayLogin] = useState(false)
-    const [displayRegister, setDisplayRegister] = useState(false)
-    const [displayUserRoutes, setDisplayUserRoutes] = useState(false)
     const [isAuth, setIsAuth] = useContext(AuthContext)
 
     return (
@@ -34,10 +28,6 @@ const Nav = ({ setId }) => {
                     <SearchBar setId={setId}></SearchBar>
                 </nav>
             </div>
-            <LoginModal display={displayLogin} setDisplay={setDisplayLogin}></LoginModal>
-            <RegisterModal display={displayRegister} setDisplay={setDisplayRegister}></RegisterModal>
-            <UserRoutesModal display={displayUserRoutes} setDisplay={setDisplayUserRoutes}></UserRoutesModal>
-
         </>
     )
 }

@@ -20,7 +20,7 @@ const RegisterModal = ({ display, setDisplay }) => {
 
     const submit = (e) => {
         e.preventDefault()
-        if (isAuth){
+        if (isAuth) {
             return
         }
         let body = {
@@ -35,28 +35,24 @@ const RegisterModal = ({ display, setDisplay }) => {
                 'Content-Type': 'application/json',
             }
         })
-            .then(res => {
+            .then(res => Promise.all([res, res.json()]))
+            .then(([res, data]) => {
                 if (res.status >= 400) {
-                    return res.json()
+                    setErrors(data)
                 }
                 else {
+                    localStorage.setItem('csrf_token', data.csrf_token)
                     setDisplay(false)
                     setName('')
                     setPassword('')
-                    setIsAuth(true)                
-                    return {}
+                    setIsAuth(true)
                 }
             })
-            .then(data => {
-                setErrors(data);
-            })
-            .catch(err => {
-                console.log(err)
-            })
+            .catch(err => console.log(err))
     }
 
     const attributes = {
-        onClick: (e) =>{
+        onClick: (e) => {
             setDisplay(false)
         }
     }

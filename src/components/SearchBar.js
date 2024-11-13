@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { MODELS_API_BOOKS_URL } from '../externApi'
+import { MODELS_API_BOOKS_SEARCH_URL } from '../externApi'
 import SearchBarButton from './SearchBarButton'
 
 const SearchBar = ({ setId }) => {
@@ -13,7 +13,7 @@ const SearchBar = ({ setId }) => {
 
     const fetchTitles = () => {
         const v = encodeURIComponent(value)
-        const url = `${MODELS_API_BOOKS_URL}/search?count=100&title=${v}`
+        const url = `${MODELS_API_BOOKS_SEARCH_URL}?count=100&title=${v}`
         fetch(url)
             .then(res => res.json())
             .then(data => {
