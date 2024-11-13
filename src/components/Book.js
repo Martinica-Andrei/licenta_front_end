@@ -2,12 +2,18 @@ import React, { useState, useEffect, useContext } from 'react'
 import AuthContext from '../contexts/AuthContext'
 import { MODELS_API_BOOKS_RATE_URL } from '../externApi'
 import { getCSRFToken } from '../utils'
-import useStateFromProp from '../hooks/useStateFromProp'
 
 const Book = ({ id, title, description, link, image, rating, authors, categories, setDisplayLogin }) => {
 
     const [isAuth, setIsAuth] = useContext(AuthContext)
-    const [ratingState, setRatingState] = useStateFromProp(rating)
+    const [ratingState, setRatingState] = useState(rating)
+
+    // id dependency because if book changes so does rating
+    // rating dependency doesn't work without id because if rating is null, setRating changes to true
+    // and then a new book appears with rating null, effect won't trigger
+    useEffect(() =>{
+        setRatingState(rating)
+    }, [id, rating])
 
     // could add an extra function that represents the common code between like and dislike
     const like = () => {
