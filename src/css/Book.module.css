@@ -1,0 +1,70 @@
+.book {
+    display: flex;
+    flex-direction: column;
+    flex: 0.25 0.5 400px;
+    height: 332px;
+    background-color: var(--medium-dark-color);
+    border: 1px solid var(--light-color);
+    border-radius: 5%;
+    padding: 10px;
+    box-sizing: border-box;
+    color: var(--soft-light-color);
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
+.book-upper {
+    display: flex;
+}
+
+.book-image-link {
+    width: 120px;
+    height: 180px;
+}
+
+.book-image-link>img {
+    border-radius: 10%;
+    width: inherit;
+    height: inherit;
+}
+
+.book-upper-right {
+    margin-left: 10px;
+    width: 100%;
+}
+
+.book-upper-right>a {
+    height: 70px;
+    margin: 5px 0 0 0;
+    overflow-y: auto;
+    display: block;
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+}
+
+.book-upper-right>a:hover {
+    text-decoration: underline;
+}
+
+.book-authors {
+    font-size: 14px;
+    height: 40px;
+    overflow-y: auto;
+}
+
+.book-categories {
+    font-size: 12px;
+    height: 30px;
+    overflow-y: auto;
+}
+
+.book-description {
+    overflow-y: auto;
+    margin-top: 0px;
+    margin-bottom: 3px;
+}
+
+.book-rating-section {
+    margin-top: auto;
+}

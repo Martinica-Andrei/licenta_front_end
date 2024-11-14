@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import AuthContext from '../contexts/AuthContext'
 import { MODELS_API_BOOKS_RATE_URL } from '../externApi'
 import { getCSRFToken } from '../utils'
+import styles from '../css/Book.module.css'
 
 // take books as props to check if ratingState should be synced with rating
 const Book = ({ id, title, description, link, image, rating, authors, categories, setDisplayLogin, books }) => {
@@ -88,22 +89,22 @@ const Book = ({ id, title, description, link, image, rating, authors, categories
     const dislike_png_path = ratingState !== 'Dislike' ? './dislike.png' : 'dislike-filled.png'
 
     return (
-        <div className='book'>
-            <div className='book-upper'>
-                <a href={link} className='book-image-link'>
+        <div className={styles.book}>
+            <div className={styles['book-upper']}>
+                <a href={link} className={styles['book-image-link']}>
                     <img src={image !== null ? `data:image/jpg;base64,${image}` : "/empty_cover.jpg"}></img>
                 </a>
-                <div className='book-upper-right'>
+                <div className={styles['book-upper-right']}>
                     <a href={link}>{title}</a>
                     {/* <p className='book-authors'>{authors.join(', ')}</p>
                     <p className='book-categories'>{categories.join(', ')}</p> */}
 
-                    <p className='book-authors'></p>
-                    <p className='book-categories'></p>
+                    <p className={styles['book-authors']}></p>
+                    <p className={styles['book-categories']}></p>
                 </div>
             </div>
-            <p className='book-description'>{description}</p>
-            <div className='book-rating-section'>
+            <p className={styles['book-description']}>{description}</p>
+            <div className={styles['book-rating-section']}>
                 <button className='rate-btn' onClick={like}><img src={like_png_path}></img></button>
                 <button className='rate-btn' onClick={dislike}><img src={dislike_png_path}></img></button>
             </div>
