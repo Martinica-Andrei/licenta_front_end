@@ -12,8 +12,8 @@ body {
     color: var(--light-color);
 }
 
-h1{
-    margin:0;
+h1,h2,h3,h4,h5,h6 {
+    margin: 0;
 }
 
 input {
@@ -157,7 +157,7 @@ input {
     margin-bottom: 3px;
 }
 
-.book-rating-section{
+.book-rating-section {
     margin-top: auto;
 }
 
@@ -197,14 +197,14 @@ input {
     color: black;
 }
 
-.basic-btn:hover{
+.basic-btn:hover {
     background-color: var(--dark-color);
     border: 1px solid var(--light-color);
     color: var(--soft-light-color);
     cursor: pointer;
 }
 
-.basic-btn-2{
+.basic-btn-2 {
     margin-right: 5px;
     padding: 10px;
     width: 100px;
@@ -215,10 +215,10 @@ input {
     color: black;
 }
 
-.basic-btn-2:hover{
+.basic-btn-2:hover {
     background-color: var(--medium-dark-color);
     border: 1px solid var(--light-color);
-    color: white; 
+    color: white;
     cursor: pointer;
 }
 
@@ -254,7 +254,7 @@ input {
     align-items: center;
 }
 
-.modal-background-right{
+.modal-background-right {
     position: fixed;
     top: 0;
     left: 0;
@@ -280,20 +280,21 @@ input {
     color: var(--soft-light-color);
 }
 
-.login-modal-submit-div{
-    margin-top:30px;
+.login-modal-submit-div {
+    margin-top: 30px;
     text-align: center;
 }
-.login-modal-submit-div button{
-    width:60%;
+
+.login-modal-submit-div button {
+    width: 60%;
 }
 
 .close-btn {
-    width:50px;
-    height:50px;
+    width: 50px;
+    height: 50px;
     opacity: 0.6;
-    padding:0;
-    font-size:38px;
+    padding: 0;
+    font-size: 38px;
     background-color: transparent;
     border: 0px;
 }
@@ -304,7 +305,7 @@ input {
     background-color: var(--light-color);
 }
 
-.div-close-modal{
+.div-close-modal {
     display: flex;
     flex-direction: row;
     justify-content: end;
@@ -312,86 +313,91 @@ input {
     box-sizing: border-box;
 }
 
-.input-div{
+.input-div {
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
 }
 
-.input-div label{
-    font-size:18px;
-}
-
-.input-div input{
-    padding:5px;
+.input-div label {
     font-size: 18px;
 }
 
-.basic-form{
-    width: 80%;
-    margin-top:10px;
+.input-div input {
+    padding: 5px;
+    font-size: 18px;
 }
 
-.checkbox{
-    transform:scale(2);
+.basic-form {
+    width: 80%;
+    margin-top: 10px;
+}
+
+.checkbox {
+    transform: scale(2);
     margin: 6px 6px 6px 8px;
 }
 
-.error{
-    margin-top:4px;
+.error {
+    margin-top: 4px;
     margin-bottom: 0px;
-    color:rgb(255, 33, 43);
+    color: rgb(255, 33, 43);
     display: none;
-    width:250px;
+    width: 250px;
 }
 
 @keyframes slide {
-    from {left : 300px;}
-    to {left:0px;}
+    from {
+        left: 300px;
+    }
+
+    to {
+        left: 0px;
+    }
 }
 
-.user-routes-modal{
-    width:300px;
-    height:100vh;
+.user-routes-modal {
+    width: 300px;
+    height: 100vh;
     background-color: var(--dark-color);
     border-radius: 2%;
     border-left: 1px solid var(--light-color);
-    padding:10px;
-    position:relative;
+    padding: 10px;
+    position: relative;
     animation-name: slide;
     animation-duration: 0.25s;
-    display:flex;
+    display: flex;
     flex-direction: column;
     box-sizing: border-box;
 }
 
-.user-routes-username{
+.user-routes-username {
     max-width: 200px;
     word-break: break-all;
-    font-size:20px;
-    color:var(--soft-light-color)
+    font-size: 20px;
+    color: var(--soft-light-color)
 }
 
-.user-routes-close-btn{
-    width:40px;
-    height:40px;
+.user-routes-close-btn {
+    width: 40px;
+    height: 40px;
     opacity: 0.6;
-    padding:0;
-    font-size:28px;
+    padding: 0;
+    font-size: 28px;
     background-color: transparent;
     border: 0px;
 }
 
-.user-routes-btn{
+.user-routes-btn {
     background-color: transparent;
     border: none;
-    font-size:18px;
+    font-size: 18px;
     text-align: left;
-    color:var(--soft-light-color);
-    padding:10px;
+    color: var(--soft-light-color);
+    padding: 10px;
 }
 
-.user-routes-btn:hover{
+.user-routes-btn:hover {
     cursor: pointer;
     background-color: var(--medium-dark-color);
     color: white;
@@ -403,27 +409,29 @@ input {
     background-color: var(--light-color);
 }
 
-.flex-row{
-    display:flex;
+.flex-row {
+    display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.rate-btn{
+.rate-btn {
     background-color: transparent;
-    border:none;
-    width:auto;
-    height:auto;
+    border: none;
+    width: auto;
+    height: auto;
     padding: 0;
-    margin-right:5px;
+    margin-right: 5px;
 }
 
-.rate-btn img{
-    width:32px;
-    height:32px;
+.rate-btn img {
+    width: 32px;
+    height: 32px;
     cursor: pointer;
 }
 
-.rate-btn img:hover{
+.rate-btn img:hover {
     filter: brightness(0.85);
 }
+
+

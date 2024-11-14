@@ -8,12 +8,14 @@ import AuthContext from '../contexts/AuthContext'
 import LoginModal from './LoginModal'
 import RegisterModal from "./RegisterModal"
 import UserRoutesModal from "./UserRoutesModal"
+import UserRatingsModal from './UserRatingsModal'
 
 const BookRecommendationsPage = () => {
 
     const [displayLogin, setDisplayLogin] = useState(false)
     const [displayRegister, setDisplayRegister] = useState(false)
     const [displayUserRoutes, setDisplayUserRoutes] = useState(false)
+    const [displayUserRatings, setDisplayUserRatings] = useState(false)
     const [id, setId] = useState(null)
     const [books, setBooks] = useState([])
     const [isAuth, setIsAuth] = useLocalStorageState('isAuth', false)
@@ -33,7 +35,7 @@ const BookRecommendationsPage = () => {
     useEffect(() => {
         if (id !== null) {
             const url = `${MODELS_API_BOOKS_RECOMMENDATIONS_URL}?id=${id}`
-            fetch(url, {credentials:'include'})
+            fetch(url, { credentials: 'include' })
                 .then(res => res.json())
                 .then(data => setBooks(data))
                 .catch(err => {
@@ -52,7 +54,8 @@ const BookRecommendationsPage = () => {
             </div>
             <LoginModal display={displayLogin} setDisplay={setDisplayLogin}></LoginModal>
             <RegisterModal display={displayRegister} setDisplay={setDisplayRegister}></RegisterModal>
-            <UserRoutesModal display={displayUserRoutes} setDisplay={setDisplayUserRoutes}></UserRoutesModal>
+            <UserRoutesModal display={displayUserRoutes} setDisplay={setDisplayUserRoutes} setDisplayUserRatings={setDisplayUserRatings}></UserRoutesModal>
+            <UserRatingsModal display={displayUserRatings} setDisplay={setDisplayUserRatings}></UserRatingsModal>
         </AuthContext.Provider>
     )
 }

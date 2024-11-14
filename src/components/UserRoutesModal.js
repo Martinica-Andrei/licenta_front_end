@@ -3,7 +3,7 @@ import ModalBackground from "./ModalBackground";
 import AuthContext from '../contexts/AuthContext'
 import { MODELS_API_AUTH_LOGOFF, MODELS_API_ME_URL } from "../externApi";
 
-const UserRoutesModal = ({ display, setDisplay }) => {
+const UserRoutesModal = ({ display, setDisplay, setDisplayUserRatings }) => {
 
     const [isAuth, setIsAuth] = useContext(AuthContext)
     const [username, setUsername] = useState(null)
@@ -49,10 +49,10 @@ const UserRoutesModal = ({ display, setDisplay }) => {
         <ModalBackground display={display} setDisplay={setDisplay} divAttributes={attributes}>
             <div className="user-routes-modal" onClick={e => e.stopPropagation()}>
                 <div className="flex-row">
-                    <p className="user-routes-username">{username}</p>
+                    <h3 className="user-routes-username">{username}</h3>
                     <button className="user-routes-close-btn" onClick={() => setDisplay(false)}>X </button>
                 </div>
-                <button className="user-routes-btn">My ratings</button>
+                <button className="user-routes-btn" onClick={() => setDisplayUserRatings(true)}>My ratings</button>
                 <button className="user-routes-btn" onClick={signOut}>Sign Out</button>
             </div>
         </ModalBackground>

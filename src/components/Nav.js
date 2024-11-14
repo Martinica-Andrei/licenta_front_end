@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react"
 import SearchBar from "./SearchBar"
 import AuthContext from "../contexts/AuthContext"
 
-const Nav = ({ setId, setDisplayLogin, setDisplayRegister, setDisplayUserRoutes }) => {
+const Nav = ({ setId, setDisplayLogin, setDisplayRegister, setDisplayUserRoutes}) => {
 
     const [isAuth, setIsAuth] = useContext(AuthContext)
 
