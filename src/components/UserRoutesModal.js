@@ -2,6 +2,7 @@ import React, { useEffect, useContext, useState } from "react";
 import ModalBackground from "./ModalBackground";
 import AuthContext from '../contexts/AuthContext'
 import { MODELS_API_AUTH_LOGOFF, MODELS_API_ME_URL } from "../externApi";
+import styles from '../css/UserRoutesModal.module.css'
 
 const UserRoutesModal = ({ display, setDisplay, setDisplayUserRatings }) => {
 
@@ -47,13 +48,13 @@ const UserRoutesModal = ({ display, setDisplay, setDisplayUserRatings }) => {
 
     return (
         <ModalBackground display={display} setDisplay={setDisplay} divAttributes={attributes}>
-            <div className="user-routes-modal" onClick={e => e.stopPropagation()}>
+            <div className={styles.modal} onClick={e => e.stopPropagation()}>
                 <div className="flex-row">
-                    <h3 className="user-routes-username">{username}</h3>
-                    <button className="user-routes-close-btn" onClick={() => setDisplay(false)}>X </button>
+                    <h3 className={styles.username}>{username}</h3>
+                    <button className={styles['close-btn']} onClick={() => setDisplay(false)}>X </button>
                 </div>
-                <button className="user-routes-btn" onClick={() => setDisplayUserRatings(true)}>My ratings</button>
-                <button className="user-routes-btn" onClick={signOut}>Sign Out</button>
+                <button className={styles.btn} onClick={() => setDisplayUserRatings(true)}>My ratings</button>
+                <button className={styles.btn} onClick={signOut}>Sign Out</button>
             </div>
         </ModalBackground>
     )

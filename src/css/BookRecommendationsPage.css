@@ -81,7 +81,6 @@ input {
 }
 
 
-
 .modal-background-right {
     position: fixed;
     top: 0;
@@ -171,68 +170,7 @@ input {
     width: 250px;
 }
 
-@keyframes slide {
-    from {
-        left: 300px;
-    }
 
-    to {
-        left: 0px;
-    }
-}
-
-.user-routes-modal {
-    width: 300px;
-    height: 100vh;
-    background-color: var(--dark-color);
-    border-radius: 2%;
-    border-left: 1px solid var(--light-color);
-    padding: 10px;
-    position: relative;
-    animation-name: slide;
-    animation-duration: 0.25s;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-}
-
-.user-routes-username {
-    max-width: 200px;
-    word-break: break-all;
-    font-size: 20px;
-    color: var(--soft-light-color)
-}
-
-.user-routes-close-btn {
-    width: 40px;
-    height: 40px;
-    opacity: 0.6;
-    padding: 0;
-    font-size: 28px;
-    background-color: transparent;
-    border: 0px;
-}
-
-.user-routes-btn {
-    background-color: transparent;
-    border: none;
-    font-size: 18px;
-    text-align: left;
-    color: var(--soft-light-color);
-    padding: 10px;
-}
-
-.user-routes-btn:hover {
-    cursor: pointer;
-    background-color: var(--medium-dark-color);
-    color: white;
-}
-
-.user-routes-close-btn:hover {
-    opacity: 1;
-    cursor: pointer;
-    background-color: var(--light-color);
-}
 
 .flex-row {
     display: flex;
