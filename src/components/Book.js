@@ -10,7 +10,7 @@ const Book = ({ id, title, description, link, image, rating, authors, categories
     const [isAuth, setIsAuth] = useContext(AuthContext)
     const [ratingState, setRatingState] = useState(rating)
 
-    useEffect(() =>{
+    useEffect(() => {
         setRatingState(rating)
     }, [books])
 

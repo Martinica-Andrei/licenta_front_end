@@ -9,9 +9,11 @@ import LoginModal from './LoginModal'
 import RegisterModal from "./RegisterModal"
 import UserRoutesModal from "./UserRoutesModal"
 import UserRatingsModal from './UserRatingsModal'
+import { getCSRFToken } from '../utils'
 
 const BookRecommendationsPage = () => {
-
+    //TODO 
+    //IMPLEMENT LIKE AND DISLIKE METHODS HERE SO THAT books array changes when user likes or dislikes
     const [displayLogin, setDisplayLogin] = useState(false)
     const [displayRegister, setDisplayRegister] = useState(false)
     const [displayUserRoutes, setDisplayUserRoutes] = useState(false)
@@ -21,15 +23,26 @@ const BookRecommendationsPage = () => {
     const [isAuth, setIsAuth] = useLocalStorageState('isAuth', false)
 
     useEffect(() => {
-        if (isAuth === false) {
-            fetch(MODELS_API_AUTH_CHECK_SESSION_URL, { credentials: 'include' })
-                .then(res => {
-                    if (res.status === 200) {
-                        setIsAuth(true)
-                    }
-                })
-                .catch(err => console.log(err))
-        }
+        fetch(MODELS_API_AUTH_CHECK_SESSION_URL, 
+            { 
+                credentials: 'include',
+                method: 'POST',
+                headers: {
+                    "Content-Type" : "application/json",
+                    "X-CSRFToken" : getCSRFToken()
+                }
+
+            })
+            .then(res => {
+                if (res.status === 200) {
+                    setIsAuth(true)
+                }
+                else if (res.status === 401 || res.status === 403){
+                    setIsAuth(false)
+                }
+            })
+            .catch(err => console.log(err))
+
     }, [])
 
     useEffect(() => {

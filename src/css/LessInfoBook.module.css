@@ -1,0 +1,40 @@
+.main-div{
+    display: flex;
+    width:300px;
+    padding:3px;
+    background-color: var(--medium-dark-color);
+    border: 1px solid var(--light-color);
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
+.title{
+    color: black;
+    font-size: 16px;
+    margin-left:5px;
+    max-height: 80px;
+    overflow-y: auto;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.title:hover{
+    text-decoration: underline;
+}
+
+.book-image-link {
+    width: 96px;
+    height: 144px;
+}
+
+.book-image-link>img {
+    border-radius: 10%;
+    width: inherit;
+    height: inherit;
+}
+
+.right-section{
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+}

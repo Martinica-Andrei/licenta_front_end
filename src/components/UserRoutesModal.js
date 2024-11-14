@@ -28,6 +28,7 @@ const UserRoutesModal = ({ display, setDisplay, setDisplayUserRatings }) => {
             .catch(err => console.log(err))
     }
 
+    // could be changed to fetch only when auth changes
     useEffect(() => {
         if (display === false) {
             return
@@ -44,7 +45,7 @@ const UserRoutesModal = ({ display, setDisplay, setDisplayUserRatings }) => {
                 }
             })
             .catch(err => console.log(err))
-    })
+    }, [display, isAuth])
 
     return (
         <ModalBackground display={display} setDisplay={setDisplay} divAttributes={attributes}>
@@ -53,7 +54,7 @@ const UserRoutesModal = ({ display, setDisplay, setDisplayUserRatings }) => {
                     <h3 className={styles.username}>{username}</h3>
                     <button className={styles['close-btn']} onClick={() => setDisplay(false)}>X </button>
                 </div>
-                <button className={styles.btn} onClick={() => setDisplayUserRatings(true)}>My ratings</button>
+                <button className={styles.btn} onClick={() => setDisplayUserRatings(true)}>My Ratings</button>
                 <button className={styles.btn} onClick={signOut}>Sign Out</button>
             </div>
         </ModalBackground>

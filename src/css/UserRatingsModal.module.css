@@ -1,15 +1,39 @@
 .modal {
     width: 1000px;
     height: 800px;
-    background-color: var(--light-color);
-    border:1px solid var(--medium-dark-color);
+    background-color: var(--dark-color);
+    border:1px solid var(--soft-light-color);
     border-radius: 5%;
     padding:20px;
     box-sizing: border-box;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .title{
-    color: var(--dark-color);
+    color: color(--medium-dark-color);
     font-size:44px;
-    text-align: center;
+}
+
+.book-section{
+    display:flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    justify-content: center;
+    overflow-y:auto;
+}
+
+.close-btn{
+    position:absolute;
+    align-self:end;
+}
+
+.dropdown{
+    background-color: var(--light-color);
+    border:1px solid var(--soft-light-color);
+    color:black;
+    font-size:20px;
+    padding:10px;
+    margin-bottom: 5px;
 }
