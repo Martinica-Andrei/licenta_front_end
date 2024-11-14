@@ -3,17 +3,15 @@ import AuthContext from '../contexts/AuthContext'
 import { MODELS_API_BOOKS_RATE_URL } from '../externApi'
 import { getCSRFToken } from '../utils'
 
-const Book = ({ id, title, description, link, image, rating, authors, categories, setDisplayLogin }) => {
+// take books as props to check if ratingState should be synced with rating
+const Book = ({ id, title, description, link, image, rating, authors, categories, setDisplayLogin, books }) => {
 
     const [isAuth, setIsAuth] = useContext(AuthContext)
     const [ratingState, setRatingState] = useState(rating)
 
-    // id dependency because if book changes so does rating
-    // rating dependency doesn't work without id because if rating is null, setRating changes to true
-    // and then a new book appears with rating null, effect won't trigger
     useEffect(() =>{
         setRatingState(rating)
-    }, [id, rating])
+    }, [books])
 
     // could add an extra function that represents the common code between like and dislike
     const like = () => {
