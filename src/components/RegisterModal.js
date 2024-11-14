@@ -59,7 +59,7 @@ const RegisterModal = ({ display, setDisplay }) => {
 
     return (
         <ModalBackground display={display} setDisplay={setDisplay} divAttributes={attributes}>
-            <div className="login-modal" onClick={e => e.stopPropagation()}>
+            <div className="auth-modal" onClick={e => e.stopPropagation()}>
                 <div className="div-close-modal">
                     <button className='close-btn' onClick={() => setDisplay(false)}>X</button>
                 </div>
@@ -79,7 +79,7 @@ const RegisterModal = ({ display, setDisplay }) => {
                             <p className="error" {...getErrorStyle('password')}>{errors['password']}</p>
                         </div>
                     </div>
-                    <div className="login-modal-submit-div">
+                    <div className="auth-modal-submit-div">
                         <button className="basic-btn-2">Register</button>
                     </div>
                 </form>

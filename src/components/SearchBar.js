@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { MODELS_API_BOOKS_SEARCH_URL } from '../externApi'
 import SearchBarButton from './SearchBarButton'
+import styles from '../css/SearchBar.module.css'
 
 const SearchBar = ({ setId }) => {
 
@@ -65,12 +66,12 @@ const SearchBar = ({ setId }) => {
     }
 
     return (
-        <div className='search-bar-div '>
+        <div className={styles.main}>
             <label>Search book: </label>
-            <div className='search-bar-input'>
+            <div className={styles['input-div']}>
                 <input ref={inputRef} value={value} onChange={e => setValue(e.target.value)}
                     onFocus={() => setInputHasFocus(true)} onBlur={() => setInputHasFocus(false)}></input>
-                {titles.length > 0 && <div className='search-bar-findings-div' ref={divFindingsRef}>
+                {titles.length > 0 && <div className={styles.findings} ref={divFindingsRef}>
                     {titles.map(obj => <SearchBarButton key={obj['id']} id={obj['id']} text={obj['title']} click={buttonClick}></SearchBarButton>)}
                 </div>}
 

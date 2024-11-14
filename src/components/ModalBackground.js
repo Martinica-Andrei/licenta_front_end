@@ -1,4 +1,5 @@
 import React, { useEffect, useCallback} from "react";
+import styles from '../css/ModalBackground.module.css'
 
 const ModalBackground = ({ children, display, setDisplay, divAttributes }) => {
 
@@ -23,7 +24,7 @@ const ModalBackground = ({ children, display, setDisplay, divAttributes }) => {
     return (
         <>
             {display &&
-                <div className="modal-background" {...divAttributes}>
+                <div className={styles["modal-background"]} {...divAttributes}>
                     {children}
                 </div>
             }

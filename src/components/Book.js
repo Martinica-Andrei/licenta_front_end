@@ -96,8 +96,8 @@ const Book = ({ id, title, description, link, image, rating, authors, categories
                 </a>
                 <div className={styles['book-upper-right']}>
                     <a href={link}>{title}</a>
-                    {/* <p className='book-authors'>{authors.join(', ')}</p>
-                    <p className='book-categories'>{categories.join(', ')}</p> */}
+                    {/* <p className={style['book-authors']}>{authors.join(', ')}</p>
+                    <p className={style['book-categories']}>{categories.join(', ')}</p> */}
 
                     <p className={styles['book-authors']}></p>
                     <p className={styles['book-categories']}></p>

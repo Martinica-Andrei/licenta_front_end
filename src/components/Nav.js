@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react"
 import SearchBar from "./SearchBar"
 import AuthContext from "../contexts/AuthContext"
+import styles from '../css/Nav.module.css'
 
 const Nav = ({ setId, setDisplayLogin, setDisplayRegister, setDisplayUserRoutes}) => {
 
@@ -8,10 +9,10 @@ const Nav = ({ setId, setDisplayLogin, setDisplayRegister, setDisplayUserRoutes}
 
     return (
         <>
-            <div id="nav-wrapper">
-                <nav id="nav-main">
+            <div id={styles["nav-wrapper"]}>
+                <nav id={styles["nav-main"]}>
                     <h1>Book recommendations</h1>
-                    <div id="nav-main-right">
+                    <div>
                         {isAuth === false ?
                             <>
                                 <button className="basic-btn" onClick={() => setDisplayLogin(true)}>Login</button>
@@ -24,7 +25,7 @@ const Nav = ({ setId, setDisplayLogin, setDisplayRegister, setDisplayUserRoutes}
                         }
                     </div>
                 </nav>
-                <nav id="nav-search">
+                <nav id={styles["nav-search"]}>
                     <SearchBar setId={setId}></SearchBar>
                 </nav>
             </div>
