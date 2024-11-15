@@ -75,7 +75,9 @@ const LessInfoBook = ({ id, title, image, link, rating }) => {
                 <img src={image !== null ? `data:image/jpg;base64,${image}` : "/empty_cover.jpg"}></img>
             </a>
             <div className={styles['right-section']}>
-                <a href={link} className={styles.title}>{title}</a>
+                <div className={styles['title-div']}>
+                    <a href={link} className={styles.title}>{title}</a>
+                </div>
                 <div className={styles['book-rating-section']}>
                     <button className='rate-btn' onClick={like}><img src={like_png_path}></img></button>
                     <button className='rate-btn' onClick={dislike}><img src={dislike_png_path}></img></button>

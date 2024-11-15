@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react'
 import '../css/BookRecommendationsPage.css'
-import { MODELS_API_BOOKS_RECOMMENDATIONS_URL, MODELS_API_AUTH_CHECK_SESSION_URL } from '../externApi'
+import {
+    MODELS_API_BOOKS_RECOMMENDATIONS_URL, MODELS_API_AUTH_CHECK_SESSION_URL,
+    MODELS_API_BOOKS_RATE_URL
+} from '../externApi'
 import Book from './Book'
 import Nav from './Nav'
 import useLocalStorageState from '../hooks/useLocalStorageState'
@@ -12,8 +15,6 @@ import UserRatingsModal from './UserRatingsModal'
 import { getCSRFToken } from '../utils'
 
 const BookRecommendationsPage = () => {
-    //TODO 
-    //IMPLEMENT LIKE AND DISLIKE METHODS HERE SO THAT books array changes when user likes or dislikes
     const [displayLogin, setDisplayLogin] = useState(false)
     const [displayRegister, setDisplayRegister] = useState(false)
     const [displayUserRoutes, setDisplayUserRoutes] = useState(false)
@@ -23,13 +24,13 @@ const BookRecommendationsPage = () => {
     const [isAuth, setIsAuth] = useLocalStorageState('isAuth', false)
 
     useEffect(() => {
-        fetch(MODELS_API_AUTH_CHECK_SESSION_URL, 
-            { 
+        fetch(MODELS_API_AUTH_CHECK_SESSION_URL,
+            {
                 credentials: 'include',
                 method: 'POST',
                 headers: {
-                    "Content-Type" : "application/json",
-                    "X-CSRFToken" : getCSRFToken()
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCSRFToken()
                 }
 
             })
@@ -37,7 +38,7 @@ const BookRecommendationsPage = () => {
                 if (res.status === 200) {
                     setIsAuth(true)
                 }
-                else if (res.status === 401 || res.status === 403){
+                else if (res.status === 401 || res.status === 403) {
                     setIsAuth(false)
                 }
             })
@@ -57,12 +58,58 @@ const BookRecommendationsPage = () => {
         }
     }, [id, isAuth])
 
+    const rate = (books_index, is_like) => {
+        if (isAuth === false) {
+            setDisplayLogin(true)
+            return
+        }
+        const { id, rating } = books[books_index]
+        let newRating
+        if (is_like) {
+            newRating = (rating === null || rating == 'Dislike') ? 'Like' : 'None'
+        }
+        else {
+            newRating = (rating === null || rating == 'Like') ? 'Dislike' : 'None'
+        }
+        const body = {
+            book_id: id,
+            rating: newRating
+        }
+        fetch(MODELS_API_BOOKS_RATE_URL,
+            {
+                credentials: 'include',
+                method: 'POST',
+                body: JSON.stringify(body),
+                headers: {
+                    "X-CSRFToken": getCSRFToken(),
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(res => {
+                if (res.status === 401 || res.status === 403) {
+                    setIsAuth(false)
+                }
+                else {
+                    const booksCopy = [...books]
+                    if (newRating !== 'None') {
+                        booksCopy[books_index].rating = newRating
+                    }
+                    else {
+                        booksCopy[books_index].rating = null
+                    }
+                    setBooks(booksCopy)
+                }
+            })
+    }
+
+
     return (
         <AuthContext.Provider value={[isAuth, setIsAuth]}>
             <Nav setId={setId} setDisplayLogin={setDisplayLogin} setDisplayRegister={setDisplayRegister} setDisplayUserRoutes={setDisplayUserRoutes}></Nav>
             <div className='main-section'>
                 {books.length > 0 && <div className='book-section'>
-                    {books.map((book, index) => <Book key={index} {...book} setDisplayLogin={setDisplayLogin} books={books}></Book>)}
+                    {books.map((book, index) => <Book key={index} {...book} setDisplayLogin={setDisplayLogin} books={books}
+                        like={() => rate(index, true)} dislike={() => { rate(index, false) }}></Book>)}
                 </div>}
             </div>
             <LoginModal display={displayLogin} setDisplay={setDisplayLogin}></LoginModal>

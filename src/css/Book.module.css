@@ -33,17 +33,20 @@
     width: 100%;
 }
 
-.book-upper-right>a {
+.title-div{
     height: 70px;
     margin: 5px 0 0 0;
     overflow-y: auto;
+}
+
+.title {
     display: block;
     text-decoration: none;
     color: black;
     font-size: 18px;
 }
 
-.book-upper-right>a:hover {
+.title:hover {
     text-decoration: underline;
 }
 
