@@ -1,5 +1,4 @@
-import React, { useContext } from 'react'
-import AuthContext from '../contexts/AuthContext'
+import React from 'react'
 import styles from '../css/Book.module.css'
 
 const Book = ({ id, title, description, link, image, rating, authors, categories, like, dislike}) => {

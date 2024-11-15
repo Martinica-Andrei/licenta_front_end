@@ -1,70 +1,7 @@
 import React from "react";
 import styles from '../css/LessInfoBook.module.css'
 
-const LessInfoBook = ({ id, title, image, link, rating }) => {
-    const like = 1;
-    const dislike = 2;
-    // const like = () => {
-    //     const newRating = (ratingState === null || ratingState == 'Dislike') ? 'Like' : 'None'
-    //     const body = {
-    //         book_id: id,
-    //         rating: newRating
-    //     }
-    //     fetch(MODELS_API_BOOKS_RATE_URL,
-    //         {
-    //             credentials: 'include',
-    //             method: 'POST',
-    //             body: JSON.stringify(body),
-    //             headers: {
-    //                 "X-CSRFToken": getCSRFToken(),
-    //                 'Content-Type': 'application/json'
-    //             }
-    //         })
-    //         .then(res => {
-    //             if (res.status === 401 || res.status === 403) {
-    //                 setIsAuth(false)
-    //             }
-    //             else {
-    //                 if (newRating !== 'None') {
-    //                     setRatingState(newRating)
-    //                 }
-    //                 else {
-    //                     setRatingState(null)
-    //                 }
-    //             }
-    //         })
-    // }
-
-    // const dislike = () => {
-    //     const newRating = (ratingState === null || ratingState == 'Like') ? 'Dislike' : 'None'
-    //     const body = {
-    //         book_id: id,
-    //         rating: newRating
-    //     }
-    //     fetch(MODELS_API_BOOKS_RATE_URL,
-    //         {
-    //             credentials: 'include',
-    //             method: 'POST',
-    //             body: JSON.stringify(body),
-    //             headers: {
-    //                 "X-CSRFToken": getCSRFToken(),
-    //                 'Content-Type': 'application/json'
-    //             }
-    //         })
-    //         .then(res => {
-    //             if (res.status === 401 || res.status === 403) {
-    //                 setIsAuth(false)
-    //             }
-    //             else {
-    //                 if (newRating !== 'None') {
-    //                     setRatingState(newRating)
-    //                 }
-    //                 else {
-    //                     setRatingState(null)
-    //                 }
-    //             }
-    //         })
-    // }
+const LessInfoBook = ({ id, title, image, link, rating, like, dislike }) => {
 
     const like_png_path = rating !== 'Like' ? './like.png' : 'like-filled.png'
     const dislike_png_path = rating !== 'Dislike' ? './dislike.png' : 'dislike-filled.png'
