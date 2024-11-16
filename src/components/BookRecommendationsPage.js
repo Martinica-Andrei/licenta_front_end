@@ -12,18 +12,31 @@ import LoginModal from './LoginModal'
 import RegisterModal from "./RegisterModal"
 import UserRoutesModal from "./UserRoutesModal"
 import UserRatingsModal from './UserRatingsModal'
-import { getCSRFToken } from '../utils'
+import UserRecommendationsModal from './UserRecommendationsModal'
+import { getCSRFToken, LOGGED_OUT_MESSAGE } from '../utils'
 
 const BookRecommendationsPage = () => {
     const [displayLogin, setDisplayLogin] = useState(false)
     const [displayRegister, setDisplayRegister] = useState(false)
     const [displayUserRoutes, setDisplayUserRoutes] = useState(false)
     const [displayUserRatings, setDisplayUserRatings] = useState(false)
+    const [displayUserRecommendations, setDisplayUserRecommendations] = useState(false)
     const [id, setId] = useState(null)
     const [books, setBooks] = useState([])
-    const [isAuth, setIsAuth] = useLocalStorageState('isAuth', false)
+
+    const isAuthArr = useLocalStorageState('isAuth', false)
+    const isAuth = isAuthArr[0]
+    const setIsAuth = (value) => {
+        if (isAuth === true && value === false) {
+            alert(LOGGED_OUT_MESSAGE)
+        }
+        isAuthArr[1](value)
+    }
 
     useEffect(() => {
+        if (isAuth === false) {
+            return
+        }
         fetch(MODELS_API_AUTH_CHECK_SESSION_URL,
             {
                 credentials: 'include',
@@ -114,8 +127,10 @@ const BookRecommendationsPage = () => {
             </div>
             <LoginModal display={displayLogin} setDisplay={setDisplayLogin}></LoginModal>
             <RegisterModal display={displayRegister} setDisplay={setDisplayRegister}></RegisterModal>
-            <UserRoutesModal display={displayUserRoutes} setDisplay={setDisplayUserRoutes} setDisplayUserRatings={setDisplayUserRatings}></UserRoutesModal>
+            <UserRoutesModal display={displayUserRoutes} setDisplay={setDisplayUserRoutes} setDisplayUserRatings={setDisplayUserRatings}
+                setDisplayUserRecommendations={setDisplayUserRecommendations}></UserRoutesModal>
             <UserRatingsModal display={displayUserRatings} setDisplay={setDisplayUserRatings}></UserRatingsModal>
+            <UserRecommendationsModal display={displayUserRecommendations} setDisplay={setDisplayUserRecommendations}></UserRecommendationsModal>
         </AuthContext.Provider>
     )
 }

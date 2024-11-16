@@ -65,6 +65,7 @@ const UserRatingsModal = ({ display, setDisplay }) => {
             .then(res => {
                 if (res.status === 401 || res.status === 403) {
                     setIsAuth(false)
+                    setDisplay(false)
                 }
                 else {
                     const booksCopy = [...books]
