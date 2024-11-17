@@ -79,10 +79,10 @@ const BookRecommendationsPage = () => {
         const { id, rating } = books[books_index]
         let newRating
         if (is_like) {
-            newRating = (rating === null || rating == 'Dislike') ? 'Like' : 'None'
+            newRating = (rating === null || rating === 'Dislike') ? 'Like' : 'None'
         }
         else {
-            newRating = (rating === null || rating == 'Like') ? 'Dislike' : 'None'
+            newRating = (rating === null || rating === 'Like') ? 'Dislike' : 'None'
         }
         const body = {
             book_id: id,
