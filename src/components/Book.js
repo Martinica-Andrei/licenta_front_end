@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from '../css/Book.module.css'
 
-const Book = ({ id, title, description, link, image, rating, authors, categories, like, dislike}) => {
+const Book = ({ id, title, description, link, image, rating, nr_likes, nr_dislikes, authors, categories, like, dislike}) => {
 
     const like_png_path = rating !== 'Like' ? './like.png' : 'like-filled.png'
     const dislike_png_path = rating !== 'Dislike' ? './dislike.png' : 'dislike-filled.png'
@@ -26,7 +26,9 @@ const Book = ({ id, title, description, link, image, rating, authors, categories
             <p className={styles['book-description']}>{description}</p>
             <div className={styles['book-rating-section']}>
                 <button className='rate-btn' onClick={like}><img src={like_png_path}></img></button>
+                <span>{nr_likes}</span>
                 <button className='rate-btn' onClick={dislike}><img src={dislike_png_path}></img></button>
+                <span>{nr_dislikes}</span>
             </div>
         </div>
     )

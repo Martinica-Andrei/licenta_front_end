@@ -106,9 +106,21 @@ const BookRecommendationsPage = () => {
                     const booksCopy = [...books]
                     if (newRating !== 'None') {
                         booksCopy[books_index].rating = newRating
+                        if (newRating === 'Like'){
+                            booksCopy[books_index].nr_likes += 1
+                        }
+                        else{
+                            booksCopy[books_index].nr_dislikes += 1
+                        }
                     }
                     else {
                         booksCopy[books_index].rating = null
+                    }
+                    if (rating === 'Like'){
+                        booksCopy[books_index].nr_likes -= 1
+                    }
+                    else if (rating === 'Dislike'){
+                        booksCopy[books_index].nr_dislikes -= 1 
                     }
                     setBooks(booksCopy)
                 }
