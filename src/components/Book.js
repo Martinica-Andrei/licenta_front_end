@@ -6,6 +6,8 @@ const Book = ({ id, title, description, link, image, rating, nr_likes, nr_dislik
     const like_png_path = rating !== 'Like' ? './like.png' : 'like-filled.png'
     const dislike_png_path = rating !== 'Dislike' ? './dislike.png' : 'dislike-filled.png'
 
+    const authorsArr = Object.entries(authors).map(([key, value]) => `${key}${value !== null ? `(${value})` : ''}`)
+       
     return (
         <div className={styles.book}>
             <div className={styles['book-upper']}>
@@ -16,11 +18,8 @@ const Book = ({ id, title, description, link, image, rating, nr_likes, nr_dislik
                     <div className={styles['title-div']}>
                         <a className={styles.title} href={link}>{title}</a>
                     </div>
-                    {/* <p className={style['book-authors']}>{authors.join(', ')}</p>
-                    <p className={style['book-categories']}>{categories.join(', ')}</p> */}
-
-                    <p className={styles['book-authors']}></p>
-                    <p className={styles['book-categories']}></p>
+                    <p className={styles['book-authors']}>{authorsArr.join(', ')}</p>
+                    <p className={styles['book-categories']}>{categories.join(', ')}</p> 
                 </div>
             </div>
             <p className={styles['book-description']}>{description}</p>

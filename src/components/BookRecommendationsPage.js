@@ -133,7 +133,7 @@ const BookRecommendationsPage = () => {
             <Nav setId={setId} setDisplayLogin={setDisplayLogin} setDisplayRegister={setDisplayRegister} setDisplayUserRoutes={setDisplayUserRoutes}></Nav>
             <div className='main-section'>
                 {books.length > 0 && <div className='book-section'>
-                    {books.map((book, index) => <Book key={index} {...book} setDisplayLogin={setDisplayLogin} books={books}
+                    {books.map((book, index) => <Book key={index} {...book} setDisplayLogin={setDisplayLogin}
                         like={() => rate(index, true)} dislike={() => { rate(index, false) }}></Book>)}
                 </div>}
             </div>
