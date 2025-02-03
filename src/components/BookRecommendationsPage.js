@@ -13,6 +13,7 @@ import RegisterModal from "./RegisterModal"
 import UserRoutesModal from "./UserRoutesModal"
 import UserRatingsModal from './UserRatingsModal'
 import UserRecommendationsModal from './UserRecommendationsModal'
+import UserCategoriesModal from './UserCategoriesModal'
 import { getCSRFToken, LOGGED_OUT_MESSAGE } from '../utils'
 
 const BookRecommendationsPage = () => {
@@ -21,6 +22,7 @@ const BookRecommendationsPage = () => {
     const [displayUserRoutes, setDisplayUserRoutes] = useState(false)
     const [displayUserRatings, setDisplayUserRatings] = useState(false)
     const [displayUserRecommendations, setDisplayUserRecommendations] = useState(false)
+    const [displayUserCategories, setDisplayUserCategories] = useState(false)
     const [id, setId] = useState(null)
     const [books, setBooks] = useState([])
 
@@ -140,9 +142,11 @@ const BookRecommendationsPage = () => {
             <LoginModal display={displayLogin} setDisplay={setDisplayLogin}></LoginModal>
             <RegisterModal display={displayRegister} setDisplay={setDisplayRegister}></RegisterModal>
             <UserRoutesModal display={displayUserRoutes} setDisplay={setDisplayUserRoutes} setDisplayUserRatings={setDisplayUserRatings}
-                setDisplayUserRecommendations={setDisplayUserRecommendations}></UserRoutesModal>
+                setDisplayUserRecommendations={setDisplayUserRecommendations}
+                setDisplayUserCategories={setDisplayUserCategories}></UserRoutesModal>
             <UserRatingsModal display={displayUserRatings} setDisplay={setDisplayUserRatings}></UserRatingsModal>
             <UserRecommendationsModal display={displayUserRecommendations} setDisplay={setDisplayUserRecommendations}></UserRecommendationsModal>
+            <UserCategoriesModal display={displayUserCategories} setDisplay={setDisplayUserCategories}></UserCategoriesModal>
         </AuthContext.Provider>
     )
 }

@@ -22,6 +22,7 @@ const UserRecommendationsModal = ({ display, setDisplay }) => {
 
     const train_model = () => {
         setIsTrain(true)
+        setProgressValue(0)
         setDisplayTrainButton(false)
         fetch(MODELS_API_MODELS_BOOKS_USER_TRAIN, { credentials: 'include' })
             .then(res => {

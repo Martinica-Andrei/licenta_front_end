@@ -4,7 +4,7 @@ import AuthContext from '../contexts/AuthContext'
 import { MODELS_API_AUTH_LOGOFF, MODELS_API_ME_URL } from "../externApi";
 import styles from '../css/UserRoutesModal.module.css'
 
-const UserRoutesModal = ({ display, setDisplay, setDisplayUserRatings, setDisplayUserRecommendations }) => {
+const UserRoutesModal = ({ display, setDisplay, setDisplayUserRatings, setDisplayUserRecommendations, setDisplayUserCategories }) => {
 
     const [isAuth, setIsAuth] = useContext(AuthContext)
     const [username, setUsername] = useState(null)
@@ -39,7 +39,7 @@ const UserRoutesModal = ({ display, setDisplay, setDisplayUserRatings, setDispla
                 if (res.status === 200) {
                     setUsername(data.name)
                 }
-                else if (res.status == 401) {
+                else if (res.status === 401) {
                     setIsAuth(false)
                     setDisplay(false)
                 }
@@ -54,6 +54,7 @@ const UserRoutesModal = ({ display, setDisplay, setDisplayUserRatings, setDispla
                     <h3 className={styles.username}>{username}</h3>
                     <button className={styles['close-btn']} onClick={() => setDisplay(false)}>X </button>
                 </div>
+                <button className={styles.btn} onClick={()=>setDisplayUserCategories(true)}>Liked Categories</button>
                 <button className={styles.btn} onClick={() => setDisplayUserRatings(true)}>My Ratings</button>
                 <button className={styles.btn} onClick={() => setDisplayUserRecommendations(true)}>My Recommendations</button>
                 <button className={styles.btn} onClick={signOut}>Sign Out</button>
