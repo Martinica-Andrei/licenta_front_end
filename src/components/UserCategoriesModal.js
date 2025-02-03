@@ -12,6 +12,11 @@ const UserCategoriesModal = ({ display, setDisplay }) => {
     const [categoryFilter, setCategoryFilter] = useState('All')
     const [categories, setCategories] = useState([])
 
+    const setDisplayWrapper = (v) =>{
+        setCategorySearch('')
+        setCategoryFilter('All')
+        setDisplay(v)
+    }
 
     useEffect(() => {
         if (display === false) {
@@ -26,7 +31,7 @@ const UserCategoriesModal = ({ display, setDisplay }) => {
                 }
                 else if (res.status === 401 || res.status === 403) {
                     setIsAuth(false)
-                    setDisplay(false)
+                    setDisplayWrapper(false)
                 }
             })
             .catch(err => {
@@ -36,7 +41,7 @@ const UserCategoriesModal = ({ display, setDisplay }) => {
 
     const attributes = {
         onClick: (e) => {
-            setDisplay(false)
+            setDisplayWrapper(false)
         }
     }
 
@@ -62,7 +67,7 @@ const UserCategoriesModal = ({ display, setDisplay }) => {
             .then(res => {
                 if (res.status === 401 || res.status === 403) {
                     setIsAuth(false)
-                    setDisplay(false)
+                    setDisplayWrapper(false)
                 }
             })
     }
@@ -83,10 +88,10 @@ const UserCategoriesModal = ({ display, setDisplay }) => {
     )
 
     return (
-        <ModalBackground display={display} setDisplay={setDisplay} divAttributes={attributes}>
+        <ModalBackground display={display} setDisplay={setDisplayWrapper} divAttributes={attributes}>
             <div className={styles.modal} onClick={e => e.stopPropagation()}>
                 <h3 className={styles.title}>Liked Categories</h3>
-                <button className={`close-btn ${styles['close-btn']}`} onClick={() => setDisplay(false)}>X</button>
+                <button className={`close-btn ${styles['close-btn']}`} onClick={() => setDisplayWrapper(false)}>X</button>
                 <div>
                     <label>Search: </label>
                     <input value={categorySearch} onChange={e => setCategorySearch(e.target.value)}></input>
