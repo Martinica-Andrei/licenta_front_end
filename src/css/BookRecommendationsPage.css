@@ -21,7 +21,7 @@ h6 {
     margin: 0;
 }
 
-input {
+input, textarea {
     background-color: var(--light-color);
     border: 1px solid var(--medium-dark-color);
     color: var(--dark-color)

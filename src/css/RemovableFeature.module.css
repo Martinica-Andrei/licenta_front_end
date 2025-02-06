@@ -1,0 +1,29 @@
+.feature{
+    position:relative;
+    margin:6px;
+    padding:5px;
+    background-color: var(--medium-dark-color);
+    color: var(--soft-light-color);
+    border-radius: 10%;
+    cursor: pointer;
+}
+
+.feature > p{
+    margin:0px;
+}
+
+.close-btn {
+    position: absolute;
+    border:none;
+    font-size: 20px;
+    color: black;
+    top:-7px;
+    left:-7px;
+    background-color: var(--light-color);
+    border-radius: 20%;
+    cursor: pointer;
+}
+
+.close-btn:hover{
+    background-color: var(--soft-light-color);
+}

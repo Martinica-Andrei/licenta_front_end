@@ -14,6 +14,7 @@ import UserRoutesModal from "./UserRoutesModal"
 import UserRatingsModal from './UserRatingsModal'
 import UserRecommendationsModal from './UserRecommendationsModal'
 import UserCategoriesModal from './UserCategoriesModal'
+import ExternalBookModal from './ExternalBookModal'
 import { getCSRFToken, LOGGED_OUT_MESSAGE } from '../utils'
 
 const BookRecommendationsPage = () => {
@@ -23,6 +24,7 @@ const BookRecommendationsPage = () => {
     const [displayUserRatings, setDisplayUserRatings] = useState(false)
     const [displayUserRecommendations, setDisplayUserRecommendations] = useState(false)
     const [displayUserCategories, setDisplayUserCategories] = useState(false)
+    const [displayExternalBook, setDisplayExternalBook] = useState(false)
     const [id, setId] = useState(null)
     const [books, setBooks] = useState([])
 
@@ -132,7 +134,8 @@ const BookRecommendationsPage = () => {
 
     return (
         <AuthContext.Provider value={[isAuth, setIsAuth]}>
-            <Nav setId={setId} setDisplayLogin={setDisplayLogin} setDisplayRegister={setDisplayRegister} setDisplayUserRoutes={setDisplayUserRoutes}></Nav>
+            <Nav setId={setId} setDisplayLogin={setDisplayLogin} setDisplayRegister={setDisplayRegister} 
+            setDisplayUserRoutes={setDisplayUserRoutes} setDisplayExternalBook={setDisplayExternalBook}></Nav>
             <div className='main-section'>
                 {books.length > 0 && <div className='book-section'>
                     {books.map((book, index) => <Book key={index} {...book} setDisplayLogin={setDisplayLogin}
@@ -147,6 +150,7 @@ const BookRecommendationsPage = () => {
             <UserRatingsModal display={displayUserRatings} setDisplay={setDisplayUserRatings}></UserRatingsModal>
             <UserRecommendationsModal display={displayUserRecommendations} setDisplay={setDisplayUserRecommendations}></UserRecommendationsModal>
             <UserCategoriesModal display={displayUserCategories} setDisplay={setDisplayUserCategories}></UserCategoriesModal>
+            <ExternalBookModal display={displayExternalBook} setDisplay={setDisplayExternalBook}></ExternalBookModal>
         </AuthContext.Provider>
     )
 }

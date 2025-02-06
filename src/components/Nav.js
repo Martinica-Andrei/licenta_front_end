@@ -1,11 +1,16 @@
 import React, { useState, useContext } from "react"
+import { MODELS_API_BOOKS_SEARCH_URL } from '../externApi'
 import SearchBar from "./SearchBar"
 import AuthContext from "../contexts/AuthContext"
 import styles from '../css/Nav.module.css'
 
-const Nav = ({ setId, setDisplayLogin, setDisplayRegister, setDisplayUserRoutes}) => {
+const Nav = ({ setId, setDisplayLogin, setDisplayRegister, setDisplayUserRoutes, setDisplayExternalBook}) => {
 
     const [isAuth, setIsAuth] = useContext(AuthContext)
+
+    const createEndpoint = (value) =>{
+        return `${MODELS_API_BOOKS_SEARCH_URL}?count=100&title=${value}`
+    }
 
     return (
         <>
@@ -26,7 +31,11 @@ const Nav = ({ setId, setDisplayLogin, setDisplayRegister, setDisplayUserRoutes}
                     </div>
                 </nav>
                 <nav id={styles["nav-search"]}>
-                    <SearchBar setId={setId}></SearchBar>
+                    <div className={styles['search-div']}>
+                        <label>Search book: </label>
+                    <SearchBar setId={setId} createEndpoint={createEndpoint} dbColumnName={'title'}></SearchBar>
+                    </div>
+                    <button className="basic-btn" onClick={() => setDisplayExternalBook(true)}>External book</button>
                 </nav>
             </div>
         </>

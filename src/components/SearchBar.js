@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { MODELS_API_BOOKS_SEARCH_URL } from '../externApi'
 import SearchBarButton from './SearchBarButton'
 import styles from '../css/SearchBar.module.css'
 
-const SearchBar = ({ setId }) => {
+const SearchBar = ({ setId, createEndpoint, dbColumnName, clearValueOnSelect=false }) => {
 
     const [value, setValue] = useState('')
     const [titles, setTitles] = useState([])
@@ -14,7 +13,7 @@ const SearchBar = ({ setId }) => {
 
     const fetchTitles = () => {
         const v = encodeURIComponent(value)
-        const url = `${MODELS_API_BOOKS_SEARCH_URL}?count=100&title=${v}`
+        const url = createEndpoint(v)
         fetch(url)
             .then(res => res.json())
             .then(data => {
@@ -62,20 +61,19 @@ const SearchBar = ({ setId }) => {
 
     const buttonClick = (id, text) => {
         setValue(text)
-        setId(id)
+        setId(id, text)
+        if (clearValueOnSelect){
+            setValue('')
+        }
     }
 
     return (
-        <div className={styles.main}>
-            <label>Search book: </label>
-            <div className={styles['input-div']}>
-                <input ref={inputRef} value={value} onChange={e => setValue(e.target.value)}
-                    onFocus={() => setInputHasFocus(true)} onBlur={() => setInputHasFocus(false)}></input>
-                {titles.length > 0 && <div className={styles.findings} ref={divFindingsRef}>
-                    {titles.map(obj => <SearchBarButton key={obj['id']} id={obj['id']} text={obj['title']} click={buttonClick}></SearchBarButton>)}
-                </div>}
-
-            </div>
+        <div>
+            <input ref={inputRef} value={value} onChange={e => setValue(e.target.value)}
+                onFocus={() => setInputHasFocus(true)} onBlur={() => setInputHasFocus(false)}></input>
+            {titles.length > 0 && <div className={styles.findings} ref={divFindingsRef}>
+                {titles.map(obj => <SearchBarButton key={obj['id']} id={obj['id']} text={obj[dbColumnName]} click={buttonClick}></SearchBarButton>)}
+            </div>}
         </div>
     )
 }
