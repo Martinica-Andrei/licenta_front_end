@@ -66,7 +66,8 @@ const ExternalBookModal = ({ display, setDisplay, setBooks }) => {
     })
 
 
-    const submit = () => {
+    const submit = (e) => {
+        e.preventDefault()
         let body = {
             content: title + ' ' + description,
             authors: [...authors].map(([id, name]) => name),
@@ -97,7 +98,7 @@ const ExternalBookModal = ({ display, setDisplay, setBooks }) => {
             <div className={styles.modal} onClick={e => e.stopPropagation()}>
                 <h3 className={styles.title}>External book</h3>
                 <button className={`close-btn ${styles['close-btn']}`} onClick={() => setDisplay(false)}>X</button>
-                <div className={styles["form-div"]}>
+                <form className={styles["main-form"]} onSubmit={submit}>
                     <input className={styles['input-title']} placeholder="Title" value={title} onChange={e => setTitle(e.target.value)}></input>
                     <textarea type='' className={styles['input-description']} placeholder="Description" value={description}
                         onChange={e => setDescription(e.target.value)}></textarea>
@@ -121,8 +122,8 @@ const ExternalBookModal = ({ display, setDisplay, setBooks }) => {
                             {authorsDiv}
                         </div>
                     </div>
-                    <button className={`basic-btn-2 ${styles['submit-btn']}`} onClick={submit}>Get recommendations</button>
-                </div>
+                    <button className={`basic-btn-2 ${styles['submit-btn']}`}>Get recommendations</button>
+                </form>
             </div>
         </ModalBackground>
     )
