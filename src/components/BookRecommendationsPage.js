@@ -150,7 +150,7 @@ const BookRecommendationsPage = () => {
             <UserRatingsModal display={displayUserRatings} setDisplay={setDisplayUserRatings}></UserRatingsModal>
             <UserRecommendationsModal display={displayUserRecommendations} setDisplay={setDisplayUserRecommendations}></UserRecommendationsModal>
             <UserCategoriesModal display={displayUserCategories} setDisplay={setDisplayUserCategories}></UserCategoriesModal>
-            <ExternalBookModal display={displayExternalBook} setDisplay={setDisplayExternalBook}></ExternalBookModal>
+            <ExternalBookModal display={displayExternalBook} setDisplay={setDisplayExternalBook} setBooks={setBooks}></ExternalBookModal>
         </AuthContext.Provider>
     )
 }
