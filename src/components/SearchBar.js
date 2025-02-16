@@ -51,10 +51,10 @@ const SearchBar = ({ setId, createEndpoint, dbColumnName, clearValueOnSelect=fal
     useEffect(() => {
         if (divFindingsRef.current) {
             if (inputHasFocus) {
-                divFindingsRef.current.style.visibility = 'visible'
+                divFindingsRef.current.style.display = ''
             }
             else {
-                divFindingsRef.current.style.visibility = 'hidden'
+                divFindingsRef.current.style.display = 'none'
             }
         }
     }, [inputHasFocus])
