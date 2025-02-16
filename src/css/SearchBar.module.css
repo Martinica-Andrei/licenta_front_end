@@ -8,6 +8,7 @@
     overflow-y: auto;
     max-height: 400px;
     min-width: 300px;
+    z-index: 9000;
 }
 
 .findings>button {
@@ -23,4 +24,14 @@
 .findings>button:hover {
     background-color: var(--dark-color);
     text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+    .findings {
+        min-width: 100px;
+    }
+
+    .findings>button {
+        font-size: 12px;
+    }
 }

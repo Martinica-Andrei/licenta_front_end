@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useState } from "react";
 import ModalBackground from "./ModalBackground";
 import AuthContext from '../contexts/AuthContext'
-import { MODELS_API_ME_URL, MODELS_API_BOOKS_RATE_URL, MODELS_API_CATEGORIES_INDEX, MODELS_API_CATEGORIES_LIKE } from "../externApi";
+import { MODELS_API_CATEGORIES_INDEX, MODELS_API_CATEGORIES_LIKE } from "../externApi";
 import styles from '../css/UserCategoriesModal.module.css'
 import { getCSRFToken } from "../utils";
 

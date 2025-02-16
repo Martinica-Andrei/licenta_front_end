@@ -68,7 +68,7 @@ const SearchBar = ({ setId, createEndpoint, dbColumnName, clearValueOnSelect=fal
     }
 
     return (
-        <div>
+        <div style={{position : "relative"}}>
             <input ref={inputRef} value={value} onChange={e => setValue(e.target.value)}
                 onFocus={() => setInputHasFocus(true)} onBlur={() => setInputHasFocus(false)}></input>
             {titles.length > 0 && <div className={styles.findings} ref={divFindingsRef}>

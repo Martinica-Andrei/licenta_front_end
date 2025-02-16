@@ -96,8 +96,10 @@ const ExternalBookModal = ({ display, setDisplay, setBooks }) => {
     return (
         <ModalBackground display={display} setDisplay={setDisplay} divAttributes={attributes}>
             <div className={styles.modal} onClick={e => e.stopPropagation()}>
+                <div className="div-close-modal">
+                    <button className='close-btn' onClick={() => setDisplay(false)}>X</button>
+                </div>
                 <h3 className={styles.title}>External book</h3>
-                <button className={`close-btn ${styles['close-btn']}`} onClick={() => setDisplay(false)}>X</button>
                 <form className={styles["main-form"]} onSubmit={submit}>
                     <input className={styles['input-title']} placeholder="Title" value={title} onChange={e => setTitle(e.target.value)}></input>
                     <textarea type='' className={styles['input-description']} placeholder="Description" value={description}
