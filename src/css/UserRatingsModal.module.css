@@ -1,6 +1,8 @@
 .modal {
     width: 1000px;
     height: 800px;
+    max-width: 100%;
+    max-height: 100%;
     background-color: var(--dark-color);
     border:1px solid var(--soft-light-color);
     border-radius: 5%;
@@ -36,4 +38,13 @@
     font-size:20px;
     padding:10px;
     margin-bottom: 5px;
+}
+
+@media (max-width: 600px) {
+    .title {
+        font-size: 25px;
+    }
+    .dropdown{
+        font-size:14px;
+    }
 }

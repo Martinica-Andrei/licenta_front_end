@@ -33,4 +33,8 @@
     .feature > p{
         font-size: 12px;
     }
+
+    .close-btn {
+        font-size: 12px;
+    }
 }

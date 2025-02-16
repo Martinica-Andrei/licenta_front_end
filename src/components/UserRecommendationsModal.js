@@ -38,8 +38,8 @@ const UserRecommendationsModal = ({ display, setDisplay }) => {
                             }
                             const chunk = decoder.decode(value, { stream: true })
                             const json = JSON.parse(chunk)
-                            setProgressValue(json.percentage)           
-                            readStream(); 
+                            setProgressValue(json.percentage)
+                            readStream();
                         }).catch(err => console.error('Stream error:', err))
                     }
                     readStream()
@@ -88,23 +88,23 @@ const UserRecommendationsModal = ({ display, setDisplay }) => {
                     const booksCopy = [...books]
                     if (newRating !== 'None') {
                         booksCopy[books_index].rating = newRating
-                        if (newRating === 'Like'){
+                        if (newRating === 'Like') {
                             booksCopy[books_index].nr_likes += 1
                         }
-                        else{
+                        else {
                             booksCopy[books_index].nr_dislikes += 1
                         }
                     }
                     else {
                         booksCopy[books_index].rating = null
                     }
-                    if (rating === 'Like'){
+                    if (rating === 'Like') {
                         booksCopy[books_index].nr_likes -= 1
                     }
-                    else if (rating === 'Dislike'){
-                        booksCopy[books_index].nr_dislikes -= 1 
+                    else if (rating === 'Dislike') {
+                        booksCopy[books_index].nr_dislikes -= 1
                     }
-                    setBooks(booksCopy)        
+                    setBooks(booksCopy)
                 }
             })
     }
@@ -171,8 +171,8 @@ const UserRecommendationsModal = ({ display, setDisplay }) => {
     return (
         <ModalBackground display={display} setDisplay={setDisplay} divAttributes={attributes}>
             <div className={styles.modal} onClick={e => e.stopPropagation()}>
-                <h3 className={styles.title}>My recommendations</h3>
                 <button className={`close-btn ${styles['close-btn']}`} onClick={() => setDisplay(false)}>X</button>
+                <h3 className={styles.title}>My recommendations</h3>
                 {cannotTrainMessage && <p className={styles.error}>{cannotTrainMessage}</p>}
                 {displayTrainButton && <button className="basic-btn-2" onClick={train_model}>Build Recommendations</button>}
                 {isTrain && <progress min={0} max={1} value={progressValue}></progress>}

@@ -1,26 +1,26 @@
-.main-div{
+.main-div {
     display: flex;
-    width:300px;
-    padding:3px;
+    width: 300px;
+    padding: 3px;
     background-color: var(--medium-dark-color);
     border: 1px solid var(--light-color);
     word-wrap: break-word;
     word-break: break-word;
 }
 
-.title-div{
-    height:80px;
+.title-div {
+    height: 80px;
     overflow-y: auto;
 }
 
-.title{
+.title {
     color: black;
     font-size: 16px;
     text-decoration: none;
     font-weight: 600;
 }
 
-.title:hover{
+.title:hover {
     text-decoration: underline;
 }
 
@@ -35,13 +35,36 @@
     height: inherit;
 }
 
-.right-section{
-    display:flex;
+.right-section {
+    display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin-left:5px;
+    margin-left: 5px;
 }
 
 .nr-ratings {
-    color:black;
+    color: black;
+}
+
+@media (max-width: 600px) {
+    .title-div {
+        height: 50px;
+        overflow-y: auto;
+    }
+    .title {
+        font-size: 12px;
+    }
+    .main-div {
+        display: flex;
+        width: 270px;
+        padding: 3px;
+        background-color: var(--medium-dark-color);
+        border: 1px solid var(--light-color);
+        word-wrap: break-word;
+        word-break: break-word;
+    }
+    .book-image-link {
+        height: 114px;
+        width:70px;
+    }
 }

@@ -71,3 +71,34 @@
 .book-rating-section {
     margin-top: auto;
 }
+
+@media (max-width: 600px) {
+    .title{
+        font-size: 16px;
+    }
+    .book-image-link {
+        width: 90px;
+        height: 130px;
+    }
+
+    .book {
+        height: 282px;
+    }
+
+    .book-authors {
+        font-size: 12px;
+        height: 20px;
+    }
+    
+    .book-categories {
+        font-size: 10px;
+    }
+    .title-div{
+        height: 40px;
+    }
+
+    .book-description{
+        font-size:14px;
+    }
+
+}
