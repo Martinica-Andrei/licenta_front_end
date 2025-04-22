@@ -173,6 +173,10 @@ textarea {
     width: 100%;
 }
 
+.form-div{
+    width:250px;
+}
+
 
 .flex-row {
     display: flex;

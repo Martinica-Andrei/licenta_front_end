@@ -43,6 +43,7 @@ const RegisterModal = ({ display, setDisplay }) => {
                 else {
                     localStorage.setItem('csrf_token', data.csrf_token)
                     setDisplay(false)
+                    setErrors({})
                     setName('')
                     setPassword('')
                     setIsAuth(true)
@@ -67,14 +68,14 @@ const RegisterModal = ({ display, setDisplay }) => {
                 <form className="basic-form" onSubmit={submit}>
                     <div className="input-div">
                         <label >Name: </label>
-                        <div>
+                        <div className="form-div">
                             <input value={name} onChange={e => setName(e.target.value)}></input>
                             <p className="error" {...getErrorStyle('name')}>{errors['name']}</p>
                         </div>
                     </div>
                     <div className="input-div">
                         <label >Password: </label>
-                        <div>
+                        <div className="form-div">
                             <input type='password' value={password} onChange={e => setPassword(e.target.value)}></input>
                             <p className="error" {...getErrorStyle('password')}>{errors['password']}</p>
                         </div>

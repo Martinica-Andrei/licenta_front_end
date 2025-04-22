@@ -43,6 +43,7 @@ const LoginModal = ({ display, setDisplay }) => {
                 else {
                     localStorage.setItem('csrf_token', data.csrf_token)
                     setDisplay(false)
+                    setErrors({})
                     setName('')
                     setPassword('')
                     setIsAuth(true)
