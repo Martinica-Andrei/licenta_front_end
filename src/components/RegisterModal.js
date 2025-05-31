@@ -2,11 +2,13 @@ import React, { useState, useContext } from "react";
 import ModalBackground from "./ModalBackground";
 import { MODELS_API_AUTH_REGISTER_URL } from '../externApi'
 import AuthContext from '../contexts/AuthContext'
+import { setCSRFToken } from "../utils";
 
 const RegisterModal = ({ display, setDisplay }) => {
 
     const [name, setName] = useState('')
     const [password, setPassword] = useState('')
+    const [rememberMe, setRememberMe] = useState(false)
     const [errors, setErrors] = useState({})
     const [isAuth, setIsAuth] = useContext(AuthContext)
 
@@ -26,6 +28,7 @@ const RegisterModal = ({ display, setDisplay }) => {
         let body = {
             "name": name,
             "password": password,
+            "remember_me" : rememberMe
         }
         fetch(MODELS_API_AUTH_REGISTER_URL, {
             credentials: 'include',
@@ -41,7 +44,7 @@ const RegisterModal = ({ display, setDisplay }) => {
                     setErrors(data)
                 }
                 else {
-                    localStorage.setItem('csrf_token', data.csrf_token)
+                    setCSRFToken(data.csrf_token)
                     setDisplay(false)
                     setErrors({})
                     setName('')
@@ -78,6 +81,13 @@ const RegisterModal = ({ display, setDisplay }) => {
                         <div className="form-div">
                             <input type='password' value={password} onChange={e => setPassword(e.target.value)}></input>
                             <p className="error" {...getErrorStyle('password')}>{errors['password']}</p>
+                        </div>
+                    </div>
+                    <div className="input-div">
+                        <label >Remember me: </label>
+                        <div>
+                            <input type='checkbox' checked={rememberMe} onChange={e => setRememberMe(e.target.checked)}></input>
+                            <p className="error" {...getErrorStyle('remember_me')}>{errors['remember_me']}</p>
                         </div>
                     </div>
                     <div className="auth-modal-submit-div">

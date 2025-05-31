@@ -15,7 +15,7 @@ import UserRatingsModal from './UserRatingsModal'
 import UserRecommendationsModal from './UserRecommendationsModal'
 import UserCategoriesModal from './UserCategoriesModal'
 import ExternalBookModal from './ExternalBookModal'
-import { getCSRFToken, LOGGED_OUT_MESSAGE } from '../utils'
+import { getCSRFToken, setCSRFToken, LOGGED_OUT_MESSAGE } from '../utils'
 
 const BookRecommendationsPage = () => {
     const [displayLogin, setDisplayLogin] = useState(false)
@@ -41,6 +41,28 @@ const BookRecommendationsPage = () => {
         if (isAuth === false) {
             return
         }
+
+        const fetchData = async () => {
+            const res = await fetch(MODELS_API_AUTH_CHECK_SESSION_URL,
+                {
+                    credentials: 'include',
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": getCSRFToken()
+                    }
+
+                })
+            if (res.status === 200) {
+                setIsAuth(true);
+                const data = await res.json()
+                setCSRFToken(data.csrf_token)
+            }
+            else if (res.status === 401 || res.status === 403) {
+                setIsAuth(false)
+            }
+        }
+
         fetch(MODELS_API_AUTH_CHECK_SESSION_URL,
             {
                 credentials: 'include',
@@ -110,21 +132,21 @@ const BookRecommendationsPage = () => {
                     const booksCopy = [...books]
                     if (newRating !== 'None') {
                         booksCopy[books_index].rating = newRating
-                        if (newRating === 'Like'){
+                        if (newRating === 'Like') {
                             booksCopy[books_index].nr_likes += 1
                         }
-                        else{
+                        else {
                             booksCopy[books_index].nr_dislikes += 1
                         }
                     }
                     else {
                         booksCopy[books_index].rating = null
                     }
-                    if (rating === 'Like'){
+                    if (rating === 'Like') {
                         booksCopy[books_index].nr_likes -= 1
                     }
-                    else if (rating === 'Dislike'){
-                        booksCopy[books_index].nr_dislikes -= 1 
+                    else if (rating === 'Dislike') {
+                        booksCopy[books_index].nr_dislikes -= 1
                     }
                     setBooks(booksCopy)
                 }
@@ -134,8 +156,8 @@ const BookRecommendationsPage = () => {
 
     return (
         <AuthContext.Provider value={[isAuth, setIsAuth]}>
-            <Nav setId={setId} setDisplayLogin={setDisplayLogin} setDisplayRegister={setDisplayRegister} 
-            setDisplayUserRoutes={setDisplayUserRoutes} setDisplayExternalBook={setDisplayExternalBook}></Nav>
+            <Nav setId={setId} setDisplayLogin={setDisplayLogin} setDisplayRegister={setDisplayRegister}
+                setDisplayUserRoutes={setDisplayUserRoutes} setDisplayExternalBook={setDisplayExternalBook}></Nav>
             <div className='main-section'>
                 {books.length > 0 && <div className='book-section'>
                     {books.map((book, index) => <Book key={index} {...book} setDisplayLogin={setDisplayLogin}
