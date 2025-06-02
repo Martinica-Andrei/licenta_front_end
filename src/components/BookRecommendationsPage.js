@@ -62,27 +62,7 @@ const BookRecommendationsPage = () => {
                 setIsAuth(false)
             }
         }
-
-        fetch(MODELS_API_AUTH_CHECK_SESSION_URL,
-            {
-                credentials: 'include',
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRFToken": getCSRFToken()
-                }
-
-            })
-            .then(res => {
-                if (res.status === 200) {
-                    setIsAuth(true)
-                }
-                else if (res.status === 401 || res.status === 403) {
-                    setIsAuth(false)
-                }
-            })
-            .catch(err => console.log(err))
-
+        fetchData()
     }, [])
 
     useEffect(() => {
