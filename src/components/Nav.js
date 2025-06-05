@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react"
-import { MODELS_API_BOOKS_SEARCH_URL } from '../externApi'
 import SearchBar from "./SearchBar"
 import AuthContext from "../contexts/AuthContext"
 import styles from '../css/Nav.module.css'
