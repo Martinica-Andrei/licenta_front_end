@@ -1,14 +1,11 @@
 import {  useState } from "react";
 import ModalBackground from "./ModalBackground";
-import {
-    MODELS_API_AUTHORS_INDEX, MODELS_API_CATEGORIES_INDEX,
-    MODELS_API_BOOKS_RECOMMENDATIONS_URL
-} from "../externApi";
 import styles from '../css/ExternalBookModal.module.css'
 import SearchBar from "./SearchBar";
 import RemovableFeature from "./RemovableFeature";
 import categoryService from "../services/categoryService";
 import authorService from "../services/authorService";
+import bookService from "../services/bookService";
 
 const ExternalBookModal = ({ display, setDisplay, setBooks }) => {
 
@@ -70,31 +67,15 @@ const ExternalBookModal = ({ display, setDisplay, setBooks }) => {
     })
 
 
-    const submit = (e) => {
+    const submit = async (e) => {
         e.preventDefault()
-        let body = {
-            content: title + ' ' + description,
-            authors: [...authors].map(([id, name]) => name),
-            categories: [...categories].map(([id, name]) => name)
-        }
-        const url = `${MODELS_API_BOOKS_RECOMMENDATIONS_URL}`
-        fetch(url, {
-            credentials: 'include',
-            method: 'POST',
-            body: JSON.stringify(body),
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        })
-            .then(res => res.json())
-            .then(data => {
-                setBooks(data)
-                setDisplay(false)
-            })
-            .catch(err => {
-                console.log(err)
-            })
+        
+        const [status, data] = await bookService.getRecommendationsByContent(title, description, authors, categories)
 
+        if (status === 200){
+            setBooks(data)
+            setDisplay(false)
+        }
     }
 
     return (

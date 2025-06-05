@@ -1,9 +1,5 @@
 import { useState, useEffect } from 'react'
 import '../css/BookRecommendationsPage.css'
-import {
-    MODELS_API_BOOKS_RECOMMENDATIONS_URL,
-    MODELS_API_BOOKS_RATE_URL
-} from '../externApi'
 import Book from './Book'
 import Nav from './Nav'
 import useLocalStorageState from '../hooks/useLocalStorageState'
@@ -15,7 +11,7 @@ import UserRatingsModal from './UserRatingsModal'
 import UserRecommendationsModal from './UserRecommendationsModal'
 import UserCategoriesModal from './UserCategoriesModal'
 import ExternalBookModal from './ExternalBookModal'
-import { getCSRFToken, LOGGED_OUT_MESSAGE } from '../utils'
+import { LOGGED_OUT_MESSAGE } from '../utils'
 import authService from '../services/authService'
 import bookService from '../services/bookService'
 
@@ -45,7 +41,7 @@ const BookRecommendationsPage = () => {
                 return
             }
             const status = await authService.getCheckSession()
-            if (status != 200) {
+            if (status !== 200) {
                 setIsAuth(false)
             }
         }
@@ -55,7 +51,7 @@ const BookRecommendationsPage = () => {
     useEffect(() => {
         const fetchBooks = async () => {
             if (id !== null) {
-                const data = await bookService.getRecommendations(id)
+                const data = await bookService.getRecommendationsById(id)
                 setBooks(data)
             }
         }
@@ -70,13 +66,12 @@ const BookRecommendationsPage = () => {
         
         const status = await bookService.rate(book, is_like)
 
-        if (status == 401 || status == 403){
+        if (status === 401 || status === 403){
             setIsAuth(false)
         }
 
         setBooks([...books])
     }
-
 
     return (
         <AuthContext.Provider value={[isAuth, setIsAuth]}>

@@ -13,11 +13,24 @@ const bookRepository = {
         return res
     },
 
-    getRecommendations: async (book_id) => {
+    getRecommendationsById: async (book_id) => {
         const url = `${RECOMMENDATIONS_URL}?id=${book_id}`
         const res = await fetch(url)
         return res
     },
+
+    getRecommendationsByContent: async (body) => {
+        const res = await fetch(RECOMMENDATIONS_URL, {
+            credentials: 'include',
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        return res
+    },
+
     rate: async (body) => {
         const res = await fetch(RATE_URL,
             {

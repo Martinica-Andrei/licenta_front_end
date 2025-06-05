@@ -7,10 +7,23 @@ const bookService = {
         return data
     },
 
-    getRecommendations: async (book_id) => {
-        const res = await bookRepository.getRecommendations(book_id)
+    getRecommendationsById: async (book_id) => {
+        const res = await bookRepository.getRecommendationsById(book_id)
         const data = await res.json()
         return data
+    },
+
+    getRecommendationsByContent: async (title, description, authors, categories) => {
+        const body = {
+            content: title + ' ' + description,
+            authors: [...authors].map(([id, name]) => name),
+            categories: [...categories].map(([id, name]) => name)
+        }
+        const res = await bookRepository.getRecommendationsByContent(body)
+        if (res.status === 200){
+            return [res.status, await res.json()]
+        }
+        return [res.status, null]
     },
 
     rate: async (book, is_like) => {
@@ -56,7 +69,7 @@ const getNewRating = (is_like, current_rating) => {
         }
     }
     else /*is_dislike*/ {
-         // dislike if is null
+        // dislike if is null
         if (current_rating === null) {
             newRating = 'Dislike'
             modify_dislikes = 1

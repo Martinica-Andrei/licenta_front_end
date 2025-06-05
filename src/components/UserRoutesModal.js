@@ -3,7 +3,7 @@ import ModalBackground from "./ModalBackground";
 import AuthContext from '../contexts/AuthContext'
 import styles from '../css/UserRoutesModal.module.css'
 import authService from "../services/authService";
-import { MODELS_API_ME_URL } from "../externApi";
+import userService from "../services/userService";
 
 const UserRoutesModal = ({ display, setDisplay, setDisplayUserRatings, setDisplayUserRecommendations, setDisplayUserCategories }) => {
 
@@ -19,29 +19,27 @@ const UserRoutesModal = ({ display, setDisplay, setDisplayUserRatings, setDispla
 
     const signOut = async () => {
         const status = await authService.logoff()
-        if (status === 200){
+        if (status === 200) {
             setIsAuth(false)
             setDisplay(false)
         }
     }
 
-    // could be changed to fetch only when auth changes
     useEffect(() => {
-        if (display === false) {
-            return
+        const fetchMe = async () => {
+            if (display === false) {
+                return
+            }
+            const [status, data] = await userService.getMe()
+            if (status === 200){
+                setUsername(data.name)
+            }
+            else if (status === 401){
+                setIsAuth(false)
+                setDisplay(false)
+            }
         }
-        fetch(MODELS_API_ME_URL, { credentials: 'include' })
-            .then(res => Promise.all([res, res.json()]))
-            .then(([res, data]) => {
-                if (res.status === 200) {
-                    setUsername(data.name)
-                }
-                else if (res.status === 401) {
-                    setIsAuth(false)
-                    setDisplay(false)
-                }
-            })
-            .catch(err => console.log(err))
+        fetchMe()
     }, [display, isAuth])
 
     return (
@@ -51,7 +49,7 @@ const UserRoutesModal = ({ display, setDisplay, setDisplayUserRatings, setDispla
                     <h3 className={styles.username}>{username}</h3>
                     <button className={styles['close-btn']} onClick={() => setDisplay(false)}>X </button>
                 </div>
-                <button className={styles.btn} onClick={()=>setDisplayUserCategories(true)}>Liked Categories</button>
+                <button className={styles.btn} onClick={() => setDisplayUserCategories(true)}>Liked Categories</button>
                 <button className={styles.btn} onClick={() => setDisplayUserRatings(true)}>My Ratings</button>
                 <button className={styles.btn} onClick={() => setDisplayUserRecommendations(true)}>My Recommendations</button>
                 <button className={styles.btn} onClick={signOut}>Sign Out</button>

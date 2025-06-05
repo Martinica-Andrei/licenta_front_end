@@ -1,10 +1,10 @@
 import React, { useEffect, useContext, useState } from "react";
 import ModalBackground from "./ModalBackground";
 import AuthContext from '../contexts/AuthContext'
-import { MODELS_API_ME_URL, MODELS_API_BOOKS_RATE_URL } from "../externApi";
 import styles from '../css/UserRatingsModal.module.css'
 import LessInfoBook from "./LessInfoBook";
-import { getCSRFToken } from "../utils";
+import bookService from "../services/bookService";
+import userService from "../services/userService";
 
 const UserRatingsModal = ({ display, setDisplay }) => {
 
@@ -13,24 +13,20 @@ const UserRatingsModal = ({ display, setDisplay }) => {
     const [bookFilter, setBookFilter] = useState('All')
 
     useEffect(() => {
-        if (display === false) {
-            return
+        const fetchMe = async () => {
+            if (display === false) {
+                return
+            }
+            const [status, data] = await userService.getMe()
+            if (status === 200){
+                setBooks(data.ratings)
+            }
+            else if (status === 401 || status === 403){
+                setIsAuth(false)
+                setDisplay(false)
+            }
         }
-        fetch(MODELS_API_ME_URL, { credentials: 'include' })
-            .then(res => Promise.all([res, res.json()]))
-            .then(([res, data]) => {
-                if (res.status === 200) {
-                    setBooks(data.ratings)
-                }
-                else if (res.status === 401 || res.status === 403) {
-                    setIsAuth(false)
-                    setDisplay(false)
-                }
-            })
-            .catch(err => {
-                console.log(err)
-                setBooks([])
-            })
+        fetchMe()
     }, [display])
 
     const attributes = {
@@ -39,63 +35,21 @@ const UserRatingsModal = ({ display, setDisplay }) => {
         }
     }
 
-    const rate = (books_index, is_like) => {
-        const { id, rating } = books[books_index]
-        let newRating
-        if (is_like) {
-            newRating = (rating === null || rating === 'Dislike') ? 'Like' : 'None'
+    const rate = async (book, is_like) => {
+        const status = await bookService.rate(book, is_like)
+
+        if (status === 401 || status === 403) {
+            setIsAuth(false)
+            setDisplay(false)
         }
-        else {
-            newRating = (rating === null || rating === 'Like') ? 'Dislike' : 'None'
-        }
-        const body = {
-            book_id: id,
-            rating: newRating
-        }
-        fetch(MODELS_API_BOOKS_RATE_URL,
-            {
-                credentials: 'include',
-                method: 'POST',
-                body: JSON.stringify(body),
-                headers: {
-                    "X-CSRFToken": getCSRFToken(),
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(res => {
-                if (res.status === 401 || res.status === 403) {
-                    setIsAuth(false)
-                    setDisplay(false)
-                }
-                else {
-                    const booksCopy = [...books]
-                    if (newRating !== 'None') {
-                        booksCopy[books_index].rating = newRating
-                        if (newRating === 'Like'){
-                            booksCopy[books_index].nr_likes += 1
-                        }
-                        else{
-                            booksCopy[books_index].nr_dislikes += 1
-                        }
-                    }
-                    else {
-                        booksCopy[books_index].rating = null
-                    }
-                    if (rating === 'Like'){
-                        booksCopy[books_index].nr_likes -= 1
-                    }
-                    else if (rating === 'Dislike'){
-                        booksCopy[books_index].nr_dislikes -= 1 
-                    }
-                    setBooks(booksCopy)             
-                }
-            })
+
+        setBooks([...books])
     }
 
     // map to preserve index
     const booksDiv = books.map((book, index) => {
         if (bookFilter === 'All' || book.rating === bookFilter) {
-            return <LessInfoBook {...book} key={book.id} like={() => rate(index, true)} dislike={() => rate(index, false)}></LessInfoBook>
+            return <LessInfoBook {...book} key={book.id} like={() => rate(book, true)} dislike={() => rate(book, false)}></LessInfoBook>
         }
         else
             return undefined
