@@ -57,7 +57,8 @@ const SearchBar = ({ setId, fetchMethod, dbColumnName, clearValueOnSelect = fals
         <div style={{ position: "relative" }}>
             <input ref={inputRef} value={value} onChange={e => setValue(e.target.value)}
                 onFocus={() => setInputHasFocus(true)} onBlur={() => setInputHasFocus(false)}></input>
-            {titles.length > 0 && <div className={styles.findings} ref={divFindingsRef}>
+            {titles.length > 0 && 
+            <div className={styles.findings} ref={divFindingsRef}>
                 {titles.map(obj => <SearchBarButton key={obj['id']} id={obj['id']} text={obj[dbColumnName]} click={buttonClick}></SearchBarButton>)}
             </div>}
         </div>

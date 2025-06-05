@@ -5,11 +5,10 @@ import AuthContext from "../contexts/AuthContext";
 import LessInfoBook from "./LessInfoBook";
 import { getCSRFToken } from "../utils";
 import {
-    MODELS_API_USER_BOOK_RECOMMENDATIONS,
     MODELS_API_USER_BOOK_RECOMMENDATIONS_TRAIN_LOGGED_IN_USER,
-    MODELS_API_USER_BOOK_RECOMMENDATIONS_TRAINING_STATUS,
 } from "../externApi";
 import bookService from "../services/bookService";
+import userRecommenderService from "../services/userRecommenderService";
 
 const UserRecommendationsModal = ({ display, setDisplay }) => {
 
@@ -75,59 +74,48 @@ const UserRecommendationsModal = ({ display, setDisplay }) => {
         setBooks([...books])
     }
 
-    const fetchBooks = () => {
-        fetch(MODELS_API_USER_BOOK_RECOMMENDATIONS, { credentials: 'include' })
-            .then(res => Promise.all([res, res.json()]))
-            .then(([res, data]) => {
-                if (res.status === 200) {
-                    setBooks(data)
-                }
-                else if (res.status === 401) {
-                    setDisplay(false)
-                    setIsAuth(false)
-                }
-            })
-            .catch(err => console.log(err))
+    const fetchBooks = async () => {
+        const [status, data] = await userRecommenderService.getLoggedInRecommendations()
+        if (status === 401 || status == - 403) {
+            setDisplay(false)
+            setIsAuth(false)
+            return
+        }
+        if (status === 200 && !('training_status' in data)) {
+            setBooks(data)
+        }
     }
 
     useEffect(() => {
-        if (display === false || isTrain) {
-            return
+        const fetchTrainingStatus = async () => {
+            if (display === false || isTrain) {
+                return
+            }
+            const [status, data] = await userRecommenderService.getTrainingStatus()
+            if (status === 401 || status === 403) {
+                setDisplay(false)
+                setIsAuth(false)
+                return
+            }
+            if (['cannot_train', 'currently_training_other_user'].includes(data['training_status'])) {
+                setCannotTrainMessage(data['message'])
+                fetchBooks()
+                return
+            }
+            setCannotTrainMessage(null)
+            if (data['training_status'] === 'must_train') {
+                setDisplayTrainButton(true)
+            }
+            else if (data['training_status'] === 'can_train') {
+                setDisplayTrainButton(true)
+                return
+            }
+            else if (data['training_status'] === 'currently_training_logged_in_user') {
+                train_model()
+            }
+            fetchBooks()
         }
-        fetch(MODELS_API_USER_BOOK_RECOMMENDATIONS_TRAINING_STATUS, { credentials: 'include' })
-            .then(res => Promise.all([res, res.json()]))
-            .then(([res, data]) => {
-                if (res.status === 401 || res.status === 403) {
-                    setDisplay(false)
-                    setIsAuth(false)
-                    return
-                }
-                if (data['training_status'] === 'cannot_train' || data['training_status'] === 'currently_training_other_user') {
-                    setCannotTrainMessage(data['message'])
-                    setBooks([])
-                    setDisplayTrainButton(false)
-                    return
-                }
-                setCannotTrainMessage(null)
-                if (data['training_status'] === 'must_train') {
-                    setDisplayTrainButton(true)
-                    setBooks([])
-                    return
-                }
-                if (data['training_status'] === 'can_train') {
-                    fetchBooks()
-                    setDisplayTrainButton(true)
-                    return
-                }
-                if (data['training_status'] === 'already_trained') {
-                    fetchBooks()
-                    return
-                }
-                if (data['training_status'] === 'currently_training_logged_in_user') {
-                    train_model()
-                }
-            })
-            .catch(err => console.log(err))
+        fetchTrainingStatus()
     }, [display])
 
     const attributes = {
@@ -136,7 +124,7 @@ const UserRecommendationsModal = ({ display, setDisplay }) => {
         }
     }
 
-    const booksDiv = books.map((book, index) =>
+    const booksDiv = books.map((book) =>
         <LessInfoBook {...book} key={book.id} like={() => rate(book, true)} dislike={() => rate(book, false)}></LessInfoBook>
     )
 

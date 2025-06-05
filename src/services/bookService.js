@@ -21,10 +21,7 @@ const bookService = {
             categories: [...categories].map(([id, name]) => name)
         }
         const res = await bookRepository.getRecommendationsByContent(body)
-        if (res.status === 200){
-            return [res.status, await res.json()]
-        }
-        return [res.status, null]
+        return [res.status, await res.json()]
     },
 
     rate: async (book, is_like) => {
