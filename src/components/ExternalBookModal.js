@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from "react";
+import {  useState } from "react";
 import ModalBackground from "./ModalBackground";
 import {
     MODELS_API_AUTHORS_INDEX, MODELS_API_CATEGORIES_INDEX,
@@ -7,6 +7,8 @@ import {
 import styles from '../css/ExternalBookModal.module.css'
 import SearchBar from "./SearchBar";
 import RemovableFeature from "./RemovableFeature";
+import categoryService from "../services/categoryService";
+import authorService from "../services/authorService";
 
 const ExternalBookModal = ({ display, setDisplay, setBooks }) => {
 
@@ -49,12 +51,14 @@ const ExternalBookModal = ({ display, setDisplay, setBooks }) => {
         }
     }
 
-    const createEndpointCategories = (value) => {
-        return `${MODELS_API_CATEGORIES_INDEX}?name=${value}`
+    const fetchAuthors = async (value) => {
+        const data = await authorService.getAuthors(value)
+        return data
     }
 
-    const createEndpointAuthors = (value) => {
-        return `${MODELS_API_AUTHORS_INDEX}?name=${value}`
+    const fetchCategories = async (value) => {
+        const data = await categoryService.getCategories(value)
+        return data
     }
 
     const categoriesDiv = [...categories.entries()].map(([id, name]) => {
@@ -107,7 +111,7 @@ const ExternalBookModal = ({ display, setDisplay, setBooks }) => {
                     <div className={styles['feature-div']}>
                         <div className={styles['input-div']}>
                             <label>Category: </label>
-                            <SearchBar createEndpoint={createEndpointCategories} dbColumnName={'name'}
+                            <SearchBar fetchMethod={fetchCategories} dbColumnName={'name'}
                                 setId={addCategory} clearValueOnSelect={true}></SearchBar>
                         </div>
                         <div className={styles["added-features"]}>
@@ -117,7 +121,7 @@ const ExternalBookModal = ({ display, setDisplay, setBooks }) => {
                     <div className={styles['feature-div']}>
                         <div className={styles['input-div']}>
                             <label>Author: </label>
-                            <SearchBar createEndpoint={createEndpointAuthors} dbColumnName={'name'}
+                            <SearchBar fetchMethod={fetchAuthors} dbColumnName={'name'}
                                 setId={addAuthor} clearValueOnSelect={true}></SearchBar>
                         </div>
                         <div className={styles["added-features"]}>

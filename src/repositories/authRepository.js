@@ -1,10 +1,10 @@
 import { MODELS_API_BASE_URL } from './baseApiLink'
 
 const AUTH_URL = MODELS_API_BASE_URL + '/auth'
-export const LOGIN_URL = AUTH_URL + '/login'
-export const REGISTER_URL = AUTH_URL + '/register'
-export const LOGOFF_URL = AUTH_URL + '/logoff'
-export const CHECK_SESSION_URL = AUTH_URL + '/check_session'
+const LOGIN_URL = AUTH_URL + '/login'
+const REGISTER_URL = AUTH_URL + '/register'
+const LOGOFF_URL = AUTH_URL + '/logoff'
+const CHECK_SESSION_URL = AUTH_URL + '/check_session'
 
 const authRepository = {
     getCheckSession: async () => {

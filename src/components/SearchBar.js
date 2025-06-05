@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import SearchBarButton from './SearchBarButton'
 import styles from '../css/SearchBar.module.css'
 
-const SearchBar = ({ setId, createEndpoint, dbColumnName, clearValueOnSelect=false }) => {
+const SearchBar = ({ setId, fetchMethod, dbColumnName, clearValueOnSelect = false }) => {
 
     const [value, setValue] = useState('')
     const [titles, setTitles] = useState([])
@@ -11,28 +11,14 @@ const SearchBar = ({ setId, createEndpoint, dbColumnName, clearValueOnSelect=fal
     const divFindingsRef = useRef(null)
     const valueRef = useRef(value)
 
-    const fetchTitles = () => {
-        const v = encodeURIComponent(value)
-        const url = createEndpoint(v)
-        fetch(url)
-            .then(res => res.json())
-            .then(data => {
-                if (valueRef.current === value) {
-                    setTitles(data)
-                    if (divFindingsRef.current) {
-                        divFindingsRef.current.scrollTop = 0
-                    }
-                }
-            })
-            .catch(err => {
-                if (valueRef.current === value) {
-                    setTitles([])
-                    if (divFindingsRef.current) {
-                        divFindingsRef.current.scrollTop = 0
-                    }
-                    console.log(err)
-                }
-            })
+    const fetchTitles = async () => {
+        const data = await fetchMethod(value)
+        if (valueRef.current === value) {
+            setTitles(data)
+            if (divFindingsRef.current) {
+                divFindingsRef.current.scrollTop = 0
+            }
+        }
     }
 
     useEffect(() => {
@@ -62,13 +48,13 @@ const SearchBar = ({ setId, createEndpoint, dbColumnName, clearValueOnSelect=fal
     const buttonClick = (id, text) => {
         setValue(text)
         setId(id, text)
-        if (clearValueOnSelect){
+        if (clearValueOnSelect) {
             setValue('')
         }
     }
 
     return (
-        <div style={{position : "relative"}}>
+        <div style={{ position: "relative" }}>
             <input ref={inputRef} value={value} onChange={e => setValue(e.target.value)}
                 onFocus={() => setInputHasFocus(true)} onBlur={() => setInputHasFocus(false)}></input>
             {titles.length > 0 && <div className={styles.findings} ref={divFindingsRef}>

@@ -3,6 +3,7 @@ import { MODELS_API_BOOKS_SEARCH_URL } from '../externApi'
 import SearchBar from "./SearchBar"
 import AuthContext from "../contexts/AuthContext"
 import styles from '../css/Nav.module.css'
+import bookService from "../services/bookService"
 
 const Nav = ({ setId, setDisplayLogin, setDisplayRegister, setDisplayUserRoutes, setDisplayExternalBook }) => {
 
@@ -12,8 +13,9 @@ const Nav = ({ setId, setDisplayLogin, setDisplayRegister, setDisplayUserRoutes,
 
     const minHeight = 700;
 
-    const createEndpoint = (value) => {
-        return `${MODELS_API_BOOKS_SEARCH_URL}?count=100&title=${value}`
+    const fetchMethod = async (value) => {
+        const data = await bookService.getSearch(value, 100)
+        return data
     }
 
     useEffect(() => {
@@ -53,7 +55,7 @@ const Nav = ({ setId, setDisplayLogin, setDisplayRegister, setDisplayUserRoutes,
                     <nav id={styles["nav-search"]}>
                         <div className={styles['search-div']}>
                             <label>Search book: </label>
-                            <SearchBar setId={setId} createEndpoint={createEndpoint} dbColumnName={'title'}></SearchBar>
+                            <SearchBar setId={setId} fetchMethod={fetchMethod} dbColumnName={'title'}></SearchBar>
                         </div>
                         <button className="basic-btn" onClick={() => setDisplayExternalBook(true)}>External book</button>
                     </nav>
