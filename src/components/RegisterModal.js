@@ -19,6 +19,14 @@ const RegisterModal = ({ display, setDisplay }) => {
         return obj
     }
 
+    const setDisplayWrapper = (v) =>{
+        setName('')
+        setPassword('')
+        setRememberMe(false)
+        setErrors({})
+        setDisplay(v)
+    }
+
     const submit = (e) => {
         e.preventDefault()
         if (isAuth) {
@@ -30,11 +38,7 @@ const RegisterModal = ({ display, setDisplay }) => {
                 setErrors(data)
             }
             else {
-                setDisplay(false)
-                setErrors({})
-                setName('')
-                setPassword('')
-                setIsAuth(true)
+                setDisplayWrapper(false)
             }
         }
         register()
@@ -42,15 +46,15 @@ const RegisterModal = ({ display, setDisplay }) => {
 
     const attributes = {
         onClick: (e) => {
-            setDisplay(false)
+            setDisplayWrapper(false)
         }
     }
 
     return (
-        <ModalBackground display={display} setDisplay={setDisplay} divAttributes={attributes}>
+        <ModalBackground display={display} setDisplay={setDisplayWrapper} divAttributes={attributes}>
             <div className="auth-modal" onClick={e => e.stopPropagation()}>
                 <div className="div-close-modal">
-                    <button className='close-btn' onClick={() => setDisplay(false)}>X</button>
+                    <button className='close-btn' onClick={() => setDisplayWrapper(false)}>X</button>
                 </div>
                 <h1>Register</h1>
                 <form className="basic-form" onSubmit={submit}>
