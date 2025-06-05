@@ -1,9 +1,8 @@
-import React, { useEffect, useContext, useState } from "react";
+import { useEffect, useContext, useState } from "react";
 import ModalBackground from "./ModalBackground";
 import AuthContext from '../contexts/AuthContext'
-import { MODELS_API_CATEGORIES_INDEX, MODELS_API_CATEGORIES_LIKE } from "../externApi";
 import styles from '../css/UserCategoriesModal.module.css'
-import { getCSRFToken } from "../utils";
+import categoryService from "../services/categoryService";
 
 const UserCategoriesModal = ({ display, setDisplay }) => {
 
@@ -12,31 +11,24 @@ const UserCategoriesModal = ({ display, setDisplay }) => {
     const [categoryFilter, setCategoryFilter] = useState('All')
     const [categories, setCategories] = useState([])
 
-    const setDisplayWrapper = (v) =>{
+    const setDisplayWrapper = (v) => {
         setCategorySearch('')
         setCategoryFilter('All')
         setDisplay(v)
     }
 
     useEffect(() => {
-        if (display === false) {
-            return
+        const fetchCategories = async () => {
+            const data = await categoryService.getCategories('')
+            if (data.length > 0 && !Object.hasOwn(data[0], 'liked')) {
+                setIsAuth(false)
+                setDisplayWrapper(false)
+            }
+            else {
+                setCategories(data)
+            }
         }
-        const url = `${MODELS_API_CATEGORIES_INDEX}?name=${categorySearch}`
-        fetch(url, { credentials: 'include' })
-            .then(res => Promise.all([res, res.json()]))
-            .then(([res, data]) => {
-                if (res.status === 200) {
-                    setCategories(data)
-                }
-                else if (res.status === 401 || res.status === 403) {
-                    setIsAuth(false)
-                    setDisplayWrapper(false)
-                }
-            })
-            .catch(err => {
-                console.log(err)
-            })
+        fetchCategories()
     }, [display])
 
     const attributes = {
@@ -45,46 +37,25 @@ const UserCategoriesModal = ({ display, setDisplay }) => {
         }
     }
 
-    const rateCategory = (index, v, id) => {
-        const categoriesCopy = [...categories]
-        categoriesCopy[index].liked = v
-        setCategories(categoriesCopy)
+    const rateCategory = async (category, is_like) => {
+        const status = await categoryService.likeCategory(category, is_like)
 
-        const body = {
-            id: id,
-            like: v
+        if (status == 200) {
+            setCategories([...categories])
         }
-        fetch(MODELS_API_CATEGORIES_LIKE,
-            {
-                credentials: 'include',
-                method: 'POST',
-                body: JSON.stringify(body),
-                headers: {
-                    "X-CSRFToken": getCSRFToken(),
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(res => {
-                if (res.status === 401 || res.status === 403) {
-                    setIsAuth(false)
-                    setDisplayWrapper(false)
-                }
-            })
+        else if (status === 401 || status === 403) {
+            setIsAuth(false)
+            setDisplayWrapper(false)
+        }
     }
 
-    // map without filter to preserve index for liking
-    const categoriesDiv = categories.map((v, index) => {
-        if (v.name.includes(categorySearch) && (categoryFilter === 'All' || v.liked)) {
-            return (
-                <div key={index}>
-                    <label>{v.name}</label>
-                    <input type='checkbox' checked={v.liked} onChange={e => rateCategory(index, e.target.checked, v.id)}></input>
-                </div>)
-        }
-        else {
-            return undefined
-        }
-    }
+    const categoriesFiltered = categories.filter(v => v.name.includes(categorySearch) && (categoryFilter === 'All' || v.liked))
+    const categoriesDiv = categoriesFiltered.map((v) =>
+    (
+        <div key={v.id}>
+            <label>{v.name}</label>
+            <input type='checkbox' checked={v.liked} onChange={e => rateCategory(v, e.target.checked)}></input>
+        </div>)
     )
 
     return (

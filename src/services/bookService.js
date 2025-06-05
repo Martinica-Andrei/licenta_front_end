@@ -1,4 +1,5 @@
 import bookRepository from "../repositories/bookRepository"
+import localStorageRepository from "../repositories/localStorageRepository"
 
 const bookService = {
     getSearch: async (title, count) => {
@@ -33,7 +34,7 @@ const bookService = {
             book_id: book.id,
             rating: newRating
         }
-        const res = await bookRepository.rate(body)
+        const res = await bookRepository.rate(body, localStorageRepository.getCSRFToken())
         const status = res.status
 
         if (status === 200) {

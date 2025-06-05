@@ -1,5 +1,4 @@
 import { MODELS_API_BASE_URL } from './baseApiLink'
-import localStorageRepository from './localStorageRepository'
 
 const BOOKS_URL = MODELS_API_BASE_URL + '/books'
 const SEARCH_URL = BOOKS_URL + '/search'
@@ -31,14 +30,14 @@ const bookRepository = {
         return res
     },
 
-    rate: async (body) => {
+    rate: async (body, csrf_token) => {
         const res = await fetch(RATE_URL,
             {
                 credentials: 'include',
                 method: 'POST',
                 body: JSON.stringify(body),
                 headers: {
-                    "X-CSRFToken": localStorageRepository.getCSRFToken(),
+                    "X-CSRFToken": csrf_token,
                     'Content-Type': 'application/json'
                 }
             })
