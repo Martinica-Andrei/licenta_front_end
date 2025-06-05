@@ -14,7 +14,7 @@ const bookRepository = {
 
     getRecommendationsById: async (book_id) => {
         const url = `${RECOMMENDATIONS_URL}?id=${book_id}`
-        const res = await fetch(url)
+        const res = await fetch(url, {credentials : 'include'})
         return res
     },
 
