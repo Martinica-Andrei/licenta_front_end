@@ -19,48 +19,28 @@ const UserRecommendationsModal = ({ display, setDisplay }) => {
     const [isTrain, setIsTrain] = useState(false)
     const [progressValue, setProgressValue] = useState(0)
 
-    const train_model = () => {
-        setIsTrain(true)
-        setProgressValue(0)
-        setDisplayTrainButton(false)
-        fetch(MODELS_API_USER_BOOK_RECOMMENDATIONS_TRAIN_LOGGED_IN_USER,
-            {
-                credentials: 'include',
-                method: 'POST',
-                headers: {
-                    "X-CSRFToken": getCSRFToken(),
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(res => {
-                if (res.status === 200) {
-                    const reader = res.body.getReader()
-                    const decoder = new TextDecoder()
-                    function readStream() {
-                        reader.read().then(({ done, value }) => {
-                            if (done) {
-                                setIsTrain(false)
-                                fetchBooks()
-                                return
-                            }
-                            const chunk = decoder.decode(value, { stream: true })
-                            const json = JSON.parse(chunk)
-                            setProgressValue(json.percentage)
-                            readStream();
-                        }).catch(err => console.error('Stream error:', err))
-                    }
-                    readStream()
-                }
-                else if (res.status === 401 || res.status === 403) {
-                    setDisplay(false)
-                    setIsAuth(false)
-                    setIsTrain(false)
-                }
-            })
-            .catch(err => {
-                setIsTrain(false)
-                console.log(err)
-            })
+
+    const train_model = async () => {
+        const readerUpdate = (json) => {
+            console.log(json.percentage)
+            setProgressValue(json.percentage)
+        }
+        const readerEnd = () => {
+            setIsTrain(false)
+            fetchBooks()
+        }
+
+        const [status, err] = await userRecommenderService.trainOnLoggedIn(readerUpdate, readerEnd)
+
+        if (status === 400) {
+            setIsTrain(false)
+            validateTrainingStatus(err)
+        }
+        else if (status === 401 || status === 403) {
+            setDisplay(false)
+            setIsAuth(false)
+            setIsTrain(false)
+        }
     }
 
     const rate = async (book, is_like) => {
@@ -81,8 +61,32 @@ const UserRecommendationsModal = ({ display, setDisplay }) => {
             setIsAuth(false)
             return
         }
-        if (status === 200 && !('training_status' in data)) {
+        if (status === 200) {
             setBooks(data)
+        }
+        else {
+            setBooks([])
+        }
+    }
+
+    const validateTrainingStatus = (data) => {
+        const trainingStatus = data['training_status']
+        if (['cannot_train', 'currently_training_other_user'].includes(trainingStatus)) {
+            setCannotTrainMessage(data['message'])
+            setDisplayTrainButton(false)
+        }
+        else if (['must_train', 'can_train'].includes(trainingStatus)) {
+            setCannotTrainMessage(null)
+            setDisplayTrainButton(true)
+        }
+        else if (trainingStatus === 'already_trained') {
+            setDisplayTrainButton(false)
+            setCannotTrainMessage(null)
+        }
+        else if (trainingStatus === 'currently_training_logged_in_user') {
+            train_model()
+            setDisplayTrainButton(false)
+            setCannotTrainMessage(null)
         }
     }
 
@@ -97,22 +101,7 @@ const UserRecommendationsModal = ({ display, setDisplay }) => {
                 setIsAuth(false)
                 return
             }
-            if (['cannot_train', 'currently_training_other_user'].includes(data['training_status'])) {
-                setCannotTrainMessage(data['message'])
-                fetchBooks()
-                return
-            }
-            setCannotTrainMessage(null)
-            if (data['training_status'] === 'must_train') {
-                setDisplayTrainButton(true)
-            }
-            else if (data['training_status'] === 'can_train') {
-                setDisplayTrainButton(true)
-                return
-            }
-            else if (data['training_status'] === 'currently_training_logged_in_user') {
-                train_model()
-            }
+            validateTrainingStatus(data)
             fetchBooks()
         }
         fetchTrainingStatus()

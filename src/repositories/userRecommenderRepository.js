@@ -13,7 +13,20 @@ const userRecommenderRepository = {
     getLoggedInRecommendations: async () => {
         const res = await fetch(USER_BOOK_RECOMMENDATIONS_URL, { credentials: 'include' })
         return res
+    },
+
+    trainOnLoggedIn: async (csrf_token) => {
+        const res = await fetch(TRAIN_LOGGED_IN_USER_URL, {
+            credentials: 'include',
+            method: 'POST',
+            headers: {
+                "X-CSRFToken": csrf_token,
+                'Content-Type': 'application/json'
+            }
+        })
+        return res
     }
+  
 }
 
 export default userRecommenderRepository
