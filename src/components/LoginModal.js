@@ -1,8 +1,7 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import ModalBackground from "./ModalBackground";
-import { MODELS_API_AUTH_LOGIN_URL } from '../externApi'
 import AuthContext from '../contexts/AuthContext'
-import { setCSRFToken } from "../utils";
+import authService from "../services/authService";
 
 const LoginModal = ({ display, setDisplay }) => {
 
@@ -20,40 +19,25 @@ const LoginModal = ({ display, setDisplay }) => {
         return obj
     }
 
-    const submit = (e) => {
+    const submit = async (e) => {
         e.preventDefault()
         if (isAuth) {
             return
         }
-        let body = {
-            "name": name,
-            "password": password,
-            "remember_me" : rememberMe
-        }
-        fetch(MODELS_API_AUTH_LOGIN_URL, {
-            credentials: 'include',
-            method: 'POST',
-            body: JSON.stringify(body),
-            headers: {
-                'Content-Type': 'application/json',
+        const login = async () => {
+            const [status, data] = await authService.login(name, password, rememberMe)
+            if (status >= 400) {
+                setErrors(data)
             }
-        })
-            .then(res => Promise.all([res, res.json()]))
-            .then(([res, data]) => {
-                if (res.status >= 400) {
-                    setErrors(data)
-                }
-                else {
-                    setCSRFToken(data.csrf_token)
-                    setDisplay(false)
-                    setErrors({})
-                    setName('')
-                    setPassword('')
-                    setIsAuth(true)
-                    return {}
-                }
-            })
-            .catch(err => console.log(err))
+            else {
+                setDisplay(false)
+                setErrors({})
+                setName('')
+                setPassword('')
+                setIsAuth(true)
+            }
+        }
+        login()
     }
 
     const attributes = {

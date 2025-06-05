@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react'
+import { useState, useEffect } from 'react'
 import '../css/BookRecommendationsPage.css'
 import {
-    MODELS_API_BOOKS_RECOMMENDATIONS_URL, MODELS_API_AUTH_CHECK_SESSION_URL,
+    MODELS_API_BOOKS_RECOMMENDATIONS_URL,
     MODELS_API_BOOKS_RATE_URL
 } from '../externApi'
 import Book from './Book'
@@ -15,7 +15,8 @@ import UserRatingsModal from './UserRatingsModal'
 import UserRecommendationsModal from './UserRecommendationsModal'
 import UserCategoriesModal from './UserCategoriesModal'
 import ExternalBookModal from './ExternalBookModal'
-import { getCSRFToken, setCSRFToken, LOGGED_OUT_MESSAGE } from '../utils'
+import { getCSRFToken, LOGGED_OUT_MESSAGE } from '../utils'
+import authService from '../services/authService'
 
 const BookRecommendationsPage = () => {
     const [displayLogin, setDisplayLogin] = useState(false)
@@ -41,28 +42,13 @@ const BookRecommendationsPage = () => {
         if (isAuth === false) {
             return
         }
-
-        const fetchData = async () => {
-            const res = await fetch(MODELS_API_AUTH_CHECK_SESSION_URL,
-                {
-                    credentials: 'include',
-                    method: 'POST',
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRFToken": getCSRFToken()
-                    }
-
-                })
-            if (res.status === 200) {
-                setIsAuth(true);
-                const data = await res.json()
-                setCSRFToken(data.csrf_token)
-            }
-            else if (res.status === 401 || res.status === 403) {
+        const checkSession = async () => {
+            const status = await authService.getCheckSession()
+            if (status != 200){
                 setIsAuth(false)
             }
         }
-        fetchData()
+        checkSession()
     }, [])
 
     useEffect(() => {

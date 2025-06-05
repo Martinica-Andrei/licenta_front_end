@@ -19,7 +19,6 @@ const UserRecommendationsModal = ({ display, setDisplay }) => {
     const [displayTrainButton, setDisplayTrainButton] = useState(false)
     const [isTrain, setIsTrain] = useState(false)
     const [progressValue, setProgressValue] = useState(0)
-    console.log(books)
 
     const train_model = () => {
         setIsTrain(true)

@@ -1,8 +1,9 @@
-import React, { useEffect, useContext, useState } from "react";
+import { useEffect, useContext, useState } from "react";
 import ModalBackground from "./ModalBackground";
 import AuthContext from '../contexts/AuthContext'
-import { MODELS_API_AUTH_LOGOFF, MODELS_API_ME_URL } from "../externApi";
 import styles from '../css/UserRoutesModal.module.css'
+import authService from "../services/authService";
+import { MODELS_API_ME_URL } from "../externApi";
 
 const UserRoutesModal = ({ display, setDisplay, setDisplayUserRatings, setDisplayUserRecommendations, setDisplayUserCategories }) => {
 
@@ -16,16 +17,12 @@ const UserRoutesModal = ({ display, setDisplay, setDisplayUserRatings, setDispla
         className: "modal-background-right"
     }
 
-    const signOut = () => {
-        fetch(MODELS_API_AUTH_LOGOFF, { credentials: 'include' })
-            .then(res => {
-                if (res.status === 200) {
-                    localStorage.removeItem('csrf_token')
-                    setIsAuth(false)
-                    setDisplay(false)
-                }
-            })
-            .catch(err => console.log(err))
+    const signOut = async () => {
+        const status = await authService.logoff()
+        if (status === 200){
+            setIsAuth(false)
+            setDisplay(false)
+        }
     }
 
     // could be changed to fetch only when auth changes
