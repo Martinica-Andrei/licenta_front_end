@@ -10,6 +10,12 @@ const bookRepository = {
         const url = `${SEARCH_URL}?title=${title}&count=${count}`
         const res = await fetch(url)
         return res
+    },
+
+    getRecommendations : async(book_id) =>{
+        const url = `${RECOMMENDATIONS_URL}?id=${book_id}`
+        const res = await fetch(url)
+        return res
     }
 }
 

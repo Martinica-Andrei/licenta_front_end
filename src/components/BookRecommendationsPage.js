@@ -17,6 +17,7 @@ import UserCategoriesModal from './UserCategoriesModal'
 import ExternalBookModal from './ExternalBookModal'
 import { getCSRFToken, LOGGED_OUT_MESSAGE } from '../utils'
 import authService from '../services/authService'
+import bookService from '../services/bookService'
 
 const BookRecommendationsPage = () => {
     const [displayLogin, setDisplayLogin] = useState(false)
@@ -39,12 +40,12 @@ const BookRecommendationsPage = () => {
     }
 
     useEffect(() => {
-        if (isAuth === false) {
-            return
-        }
         const checkSession = async () => {
+            if (isAuth === false) {
+                return
+            }
             const status = await authService.getCheckSession()
-            if (status != 200){
+            if (status != 200) {
                 setIsAuth(false)
             }
         }
@@ -52,15 +53,13 @@ const BookRecommendationsPage = () => {
     }, [])
 
     useEffect(() => {
-        if (id !== null) {
-            const url = `${MODELS_API_BOOKS_RECOMMENDATIONS_URL}?id=${id}`
-            fetch(url, { credentials: 'include' })
-                .then(res => res.json())
-                .then(data => setBooks(data))
-                .catch(err => {
-                    setBooks([])
-                })
+        const fetchBooks = async () => {
+            if (id !== null) {
+                const data = await bookService.getRecommendations(id)
+                setBooks(data)
+            }
         }
+        fetchBooks()
     }, [id, isAuth])
 
     const rate = (books_index, is_like) => {
@@ -126,7 +125,7 @@ const BookRecommendationsPage = () => {
                 setDisplayUserRoutes={setDisplayUserRoutes} setDisplayExternalBook={setDisplayExternalBook}></Nav>
             <div className='main-section'>
                 {books.length > 0 && <div className='book-section'>
-                    {books.map((book, index) => <Book key={index} {...book} setDisplayLogin={setDisplayLogin}
+                    {books.map((book, index) => <Book key={book.id} {...book} setDisplayLogin={setDisplayLogin}
                         like={() => rate(index, true)} dislike={() => { rate(index, false) }}></Book>)}
                 </div>}
             </div>
