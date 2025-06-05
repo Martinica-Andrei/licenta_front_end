@@ -3,10 +3,6 @@ import ModalBackground from "./ModalBackground";
 import styles from '../css/UserRecommendationsModal.module.css'
 import AuthContext from "../contexts/AuthContext";
 import LessInfoBook from "./LessInfoBook";
-import { getCSRFToken } from "../utils";
-import {
-    MODELS_API_USER_BOOK_RECOMMENDATIONS_TRAIN_LOGGED_IN_USER,
-} from "../externApi";
 import bookService from "../services/bookService";
 import userRecommenderService from "../services/userRecommenderService";
 
@@ -19,25 +15,38 @@ const UserRecommendationsModal = ({ display, setDisplay }) => {
     const [isTrain, setIsTrain] = useState(false)
     const [progressValue, setProgressValue] = useState(0)
 
+    const setDisplayWrapper = (v) =>{
+        setBooks([])
+        setCannotTrainMessage(null)
+        setDisplayTrainButton(false)
+        setIsTrain(false)
+        setProgressValue(0)
+        setDisplay(v)
+    }
 
     const train_model = async () => {
         const readerUpdate = (json) => {
-            console.log(json.percentage)
             setProgressValue(json.percentage)
         }
         const readerEnd = () => {
             setIsTrain(false)
+            fetchTrainingStatus()
             fetchBooks()
         }
 
         const [status, err] = await userRecommenderService.trainOnLoggedIn(readerUpdate, readerEnd)
 
-        if (status === 400) {
+        if (status === 200) {
+            setIsTrain(true)
+            setDisplayTrainButton(false)
+            setProgressValue(0)
+        }
+        else if (status === 400) {
             setIsTrain(false)
             validateTrainingStatus(err)
         }
         else if (status === 401 || status === 403) {
-            setDisplay(false)
+            setDisplayWrapper(false)
             setIsAuth(false)
             setIsTrain(false)
         }
@@ -48,7 +57,7 @@ const UserRecommendationsModal = ({ display, setDisplay }) => {
 
         if (status === 401 || status === 403) {
             setIsAuth(false)
-            setDisplay(false)
+            setDisplayWrapper(false)
         }
 
         setBooks([...books])
@@ -57,7 +66,7 @@ const UserRecommendationsModal = ({ display, setDisplay }) => {
     const fetchBooks = async () => {
         const [status, data] = await userRecommenderService.getLoggedInRecommendations()
         if (status === 401 || status == - 403) {
-            setDisplay(false)
+            setDisplayWrapper(false)
             setIsAuth(false)
             return
         }
@@ -90,26 +99,27 @@ const UserRecommendationsModal = ({ display, setDisplay }) => {
         }
     }
 
-    useEffect(() => {
-        const fetchTrainingStatus = async () => {
-            if (display === false || isTrain) {
-                return
-            }
-            const [status, data] = await userRecommenderService.getTrainingStatus()
-            if (status === 401 || status === 403) {
-                setDisplay(false)
-                setIsAuth(false)
-                return
-            }
-            validateTrainingStatus(data)
-            fetchBooks()
+    const fetchTrainingStatus = async () => {
+        if (display === false || isTrain) {
+            return
         }
+        const [status, data] = await userRecommenderService.getTrainingStatus()
+        if (status === 401 || status === 403) {
+            setDisplayWrapper(false)
+            setIsAuth(false)
+            return
+        }
+        validateTrainingStatus(data)
+    }
+
+    useEffect(() => {
         fetchTrainingStatus()
+        fetchBooks()
     }, [display])
 
     const attributes = {
         onClick: (e) => {
-            setDisplay(false)
+            setDisplayWrapper(false)
         }
     }
 
@@ -118,9 +128,9 @@ const UserRecommendationsModal = ({ display, setDisplay }) => {
     )
 
     return (
-        <ModalBackground display={display} setDisplay={setDisplay} divAttributes={attributes}>
+        <ModalBackground display={display} setDisplay={setDisplayWrapper} divAttributes={attributes}>
             <div className={styles.modal} onClick={e => e.stopPropagation()}>
-                <button className={`close-btn ${styles['close-btn']}`} onClick={() => setDisplay(false)}>X</button>
+                <button className={`close-btn ${styles['close-btn']}`} onClick={() => setDisplayWrapper(false)}>X</button>
                 <h3 className={styles.title}>My recommendations</h3>
                 {cannotTrainMessage && <p className={styles.error}>{cannotTrainMessage}</p>}
                 {displayTrainButton && <button className="basic-btn-2" onClick={train_model}>Build Recommendations</button>}
