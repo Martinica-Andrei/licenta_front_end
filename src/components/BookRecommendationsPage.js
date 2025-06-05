@@ -62,60 +62,19 @@ const BookRecommendationsPage = () => {
         fetchBooks()
     }, [id, isAuth])
 
-    const rate = (books_index, is_like) => {
+    const rate = async (book, is_like) => {
         if (isAuth === false) {
             setDisplayLogin(true)
             return
         }
-        const { id, rating } = books[books_index]
-        let newRating
-        if (is_like) {
-            newRating = (rating === null || rating === 'Dislike') ? 'Like' : 'None'
+        
+        const status = await bookService.rate(book, is_like)
+
+        if (status == 401 || status == 403){
+            setIsAuth(false)
         }
-        else {
-            newRating = (rating === null || rating === 'Like') ? 'Dislike' : 'None'
-        }
-        const body = {
-            book_id: id,
-            rating: newRating
-        }
-        fetch(MODELS_API_BOOKS_RATE_URL,
-            {
-                credentials: 'include',
-                method: 'POST',
-                body: JSON.stringify(body),
-                headers: {
-                    "X-CSRFToken": getCSRFToken(),
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(res => {
-                if (res.status === 401 || res.status === 403) {
-                    setIsAuth(false)
-                }
-                else {
-                    const booksCopy = [...books]
-                    if (newRating !== 'None') {
-                        booksCopy[books_index].rating = newRating
-                        if (newRating === 'Like') {
-                            booksCopy[books_index].nr_likes += 1
-                        }
-                        else {
-                            booksCopy[books_index].nr_dislikes += 1
-                        }
-                    }
-                    else {
-                        booksCopy[books_index].rating = null
-                    }
-                    if (rating === 'Like') {
-                        booksCopy[books_index].nr_likes -= 1
-                    }
-                    else if (rating === 'Dislike') {
-                        booksCopy[books_index].nr_dislikes -= 1
-                    }
-                    setBooks(booksCopy)
-                }
-            })
+
+        setBooks([...books])
     }
 
 
@@ -125,8 +84,8 @@ const BookRecommendationsPage = () => {
                 setDisplayUserRoutes={setDisplayUserRoutes} setDisplayExternalBook={setDisplayExternalBook}></Nav>
             <div className='main-section'>
                 {books.length > 0 && <div className='book-section'>
-                    {books.map((book, index) => <Book key={book.id} {...book} setDisplayLogin={setDisplayLogin}
-                        like={() => rate(index, true)} dislike={() => { rate(index, false) }}></Book>)}
+                    {books.map((book) => <Book key={book.id} {...book} setDisplayLogin={setDisplayLogin}
+                        like={() => rate(book, true)} dislike={() => { rate(book, false) }}></Book>)}
                 </div>}
             </div>
             <LoginModal display={displayLogin} setDisplay={setDisplayLogin}></LoginModal>
