@@ -1,4 +1,3 @@
-import React from 'react'
 import styles from '../css/Book.module.css'
 
 const Book = ({ id, title, description, link, image, rating, nr_likes, nr_dislikes, authors, categories, like, dislike}) => {

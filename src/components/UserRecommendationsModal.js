@@ -5,9 +5,9 @@ import AuthContext from "../contexts/AuthContext";
 import LessInfoBook from "./LessInfoBook";
 import { getCSRFToken } from "../utils";
 import {
-    MODELS_API_MODELS_BOOKS_USER_RECOMMENDATIONS,
-    MODELS_API_MODELS_BOOKS_USER_TRAIN,
-    MODELS_API_MODELS_BOOKS_TRAINING_STATUS,
+    MODELS_API_USER_BOOK_RECOMMENDATIONS,
+    MODELS_API_USER_BOOK_RECOMMENDATIONS_TRAIN_LOGGED_IN_USER,
+    MODELS_API_USER_BOOK_RECOMMENDATIONS_TRAINING_STATUS,
     MODELS_API_BOOKS_RATE_URL
 } from "../externApi";
 
@@ -19,12 +19,21 @@ const UserRecommendationsModal = ({ display, setDisplay }) => {
     const [displayTrainButton, setDisplayTrainButton] = useState(false)
     const [isTrain, setIsTrain] = useState(false)
     const [progressValue, setProgressValue] = useState(0)
+    console.log(books)
 
     const train_model = () => {
         setIsTrain(true)
         setProgressValue(0)
         setDisplayTrainButton(false)
-        fetch(MODELS_API_MODELS_BOOKS_USER_TRAIN, { credentials: 'include' })
+        fetch(MODELS_API_USER_BOOK_RECOMMENDATIONS_TRAIN_LOGGED_IN_USER,
+            {
+                credentials: 'include',
+                method: 'POST',
+                headers: {
+                    "X-CSRFToken": getCSRFToken(),
+                    'Content-Type': 'application/json'
+                }
+            })
             .then(res => {
                 if (res.status === 200) {
                     const reader = res.body.getReader()
@@ -44,7 +53,7 @@ const UserRecommendationsModal = ({ display, setDisplay }) => {
                     }
                     readStream()
                 }
-                else if (res.status === 401) {
+                else if (res.status === 401 || res.status == 403) {
                     setDisplay(false)
                     setIsAuth(false)
                     setIsTrain(false)
@@ -110,7 +119,7 @@ const UserRecommendationsModal = ({ display, setDisplay }) => {
     }
 
     const fetchBooks = () => {
-        fetch(MODELS_API_MODELS_BOOKS_USER_RECOMMENDATIONS, { credentials: 'include' })
+        fetch(MODELS_API_USER_BOOK_RECOMMENDATIONS, { credentials: 'include' })
             .then(res => Promise.all([res, res.json()]))
             .then(([res, data]) => {
                 if (res.status === 200) {
@@ -128,31 +137,37 @@ const UserRecommendationsModal = ({ display, setDisplay }) => {
         if (display === false || isTrain) {
             return
         }
-        fetch(MODELS_API_MODELS_BOOKS_TRAINING_STATUS, { credentials: 'include' })
+        fetch(MODELS_API_USER_BOOK_RECOMMENDATIONS_TRAINING_STATUS, { credentials: 'include' })
             .then(res => Promise.all([res, res.json()]))
             .then(([res, data]) => {
-                if (res.status === 401) {
+                if (res.status === 401 || res.status == 403) {
                     setDisplay(false)
                     setIsAuth(false)
                     return
                 }
-                if ('cannot_train' in data) {
-                    setCannotTrainMessage(data['cannot_train'])
+                if (data['training_status'] === 'cannot_train' || data['training_status'] === 'currently_training_other_user') {
+                    setCannotTrainMessage(data['message'])
                     setBooks([])
                     setDisplayTrainButton(false)
                     return
                 }
                 setCannotTrainMessage(null)
-                if ('must_train' in data) {
+                if (data['training_status'] === 'must_train') {
                     setDisplayTrainButton(true)
                     setBooks([])
                     return
                 }
-                if ('can_train' in data) {
+                if (data['training_status'] === 'can_train') {
                     fetchBooks()
-                    if (data['can_train']) {
-                        setDisplayTrainButton(true)
-                    }
+                    setDisplayTrainButton(true)               
+                    return
+                }
+                if (data['training_status'] == 'already_trained'){
+                    fetchBooks()
+                    return
+                }
+                if (data['training_status'] === 'currently_training_logged_in_user') {
+                    train_model()
                 }
             })
             .catch(err => console.log(err))
