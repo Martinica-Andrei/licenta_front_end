@@ -25,6 +25,8 @@ const UserRecommendationsModal = ({ display, setDisplay }) => {
     }
 
     const train_model = async () => {
+        setDisplayTrainButton(false)
+
         const readerUpdate = (json) => {
             setProgressValue(json.percentage)
         }
@@ -38,7 +40,6 @@ const UserRecommendationsModal = ({ display, setDisplay }) => {
 
         if (status === 200) {
             setIsTrain(true)
-            setDisplayTrainButton(false)
             setProgressValue(0)
         }
         else if (status === 400) {
