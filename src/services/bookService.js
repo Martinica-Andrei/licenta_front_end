@@ -34,7 +34,7 @@ const bookService = {
 }
 
 const getNewRating = (is_like, current_rating) => {
-    let modify_likes = 0Fray
+    let modify_likes = 0
     let modify_dislikes = 0
     let newRating;
     if (is_like) {
