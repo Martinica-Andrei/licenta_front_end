@@ -38,6 +38,7 @@ const LoginModal = ({ display, setDisplay }) => {
                 setErrors(data)
             }
             else {
+                setIsAuth(true)
                 setDisplayWrapper(false)
             }
         }
